@@ -1,14 +1,16 @@
-import PropTypes from "prop-types";
+import { ingredientType } from "../../utils/types";
 
 import {
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
+import styleCenterBurger from "./center-burger-constructor.module.css";
+
 const CenterBurgerConstructor = ({ ingredient }) => {
   const { name, price, image } = ingredient;
   return (
-    <div className="pl-8" style={{ display: "flex", alignItems: "center" }}>
+    <div className={`${styleCenterBurger.wrp} pl-8`}>
       <DragIcon type="primary" />
       <ConstructorElement text={name} price={price} thumbnail={image} />
     </div>
@@ -16,11 +18,7 @@ const CenterBurgerConstructor = ({ ingredient }) => {
 };
 
 CenterBurgerConstructor.propTypes = {
-  ingredient: PropTypes.shape({
-    name: PropTypes.string,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-  }),
+  ingredient: ingredientType,
 };
 
 export default CenterBurgerConstructor;

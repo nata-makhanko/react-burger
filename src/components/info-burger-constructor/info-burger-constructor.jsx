@@ -5,7 +5,7 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import stylesInfo from "./infoBurgerConstructor.module.css";
+import stylesInfo from "./info-burger-constructor.module.css";
 
 const InfoBurgerConstructor = ({ ingredients }) => {
   let sum = ingredients.reduce((acc, { price, __v }) => {

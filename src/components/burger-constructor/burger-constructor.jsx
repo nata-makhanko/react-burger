@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
 
-import TopBurgerConstructor from "../topBurgerConstructor/topBurgerConstructor";
-import BottomGburgerConstructor from "../bottomGburgerConstructor/bottomGburgerConstructor";
-import CenterBurgerConstructor from "../centerBurgerConstructor/centerBurgerConstructor";
-import InfoBurgerConstructor from "../infoBurgerConstructor/infoBurgerConstructor";
+import TopBurgerConstructor from "../top-burger-constructor/top-burger-constructor";
+import BottomGburgerConstructor from "../bottom-burger-constructor/bottom-burger-constructor";
+import CenterBurgerConstructor from "../center-burger-constructor/center-burger-constructor";
+import InfoBurgerConstructor from "../info-burger-constructor/info-burger-constructor";
 
-import stylesConstructor from "./burgerConstructor.module.css";
+import stylesConstructor from "./burger-constructor.module.css";
 
 const BurgerConstructor = ({ ingredients }) => {
   return (

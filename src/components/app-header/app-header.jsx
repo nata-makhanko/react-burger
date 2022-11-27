@@ -2,8 +2,8 @@ import { Logo } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ListIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import ItemListHeader from "../itemListHeader/itemListHeader";
-import stylesHeader from "./appHeader.module.css";
+import ItemListHeader from "../item-list-header/item-list-header";
+import stylesHeader from "./app-header.module.css";
 
 const AppHeader = () => {
   const paddingItems = "pt-4 pr-5 pb-4 pl-5";

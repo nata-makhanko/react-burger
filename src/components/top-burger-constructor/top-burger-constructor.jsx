@@ -1,4 +1,4 @@
-import PropTypes from "prop-types";
+import { ingredientType } from "../../utils/types";
 
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 
@@ -18,11 +18,7 @@ const TopBurgerConstructor = ({ ingredient }) => {
 };
 
 TopBurgerConstructor.propTypes = {
-  ingredient: PropTypes.shape({
-    name: PropTypes.string,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-  }),
+  ingredient: ingredientType,
 };
 
 export default TopBurgerConstructor;
