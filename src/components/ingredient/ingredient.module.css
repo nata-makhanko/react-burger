@@ -1,0 +1,24 @@
+.ingredient {
+  width: 48%;
+  position: relative;
+  box-sizing: border-box;
+  min-height: 220px;
+  cursor: pointer;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.price {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.name {
+  text-align: center;
+}

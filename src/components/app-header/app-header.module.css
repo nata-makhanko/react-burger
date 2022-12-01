@@ -1,0 +1,31 @@
+.header {
+  width: 100%;
+  background-color: #1c1c21;
+}
+
+.nav {
+  margin: 0 auto;
+  width: 1280px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.list {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  width: 40%;
+}
+
+.item {
+  display: flex;
+  border-radius: 40px;
+  cursor: pointer;
+}
+
+.personal {
+  composes: list;
+  justify-content: flex-end;
+}
