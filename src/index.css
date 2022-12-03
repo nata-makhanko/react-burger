@@ -3,6 +3,23 @@ body {
   width: 100%;
 }
 
+body::-webkit-scrollbar {
+  width: 12px;
+}
+body::-webkit-scrollbar-track {
+  background: #2f2f37;
+}
+body::-webkit-scrollbar-thumb {
+  background: #8585ad;
+  border: 3px solid #2f2f37;
+  border-radius: 6px;
+}
+
 #root {
   width: 100%;
+}
+
+#modals {
+  width: 1240px;
+  margin: 0 auto;
 }

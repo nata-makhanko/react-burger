@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { useEffect, useState } from "react";
 
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
@@ -6,27 +6,38 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 
 import stylesApp from "./app.module.css";
 
-import { data } from "../../utils/data.js";
+const _apiBase = "https://norma.nomoreparties.space/api/ingredients";
 
-class App extends Component {
-  state = {
-    ingredients: data,
-  };
+const App = () => {
+  const [ingredients, setIngredients] = useState({
+    data: [],
+    success: false,
+  });
 
-  render() {
-    const { ingredients } = this.state;
-    return (
-      <>
-        <AppHeader />
-        <main className={stylesApp.main}>
-          <section className={stylesApp.section}>
-            <BurgerIngredients ingredients={ingredients} />
-            <BurgerConstructor ingredients={ingredients} />
-          </section>
-        </main>
-      </>
-    );
-  }
-}
+  useEffect(() => {
+    const getIngredients = async () => {
+      try {
+        const res = await fetch(_apiBase);
+        const data = await res.json();
+        setIngredients({ ...data });
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    getIngredients();
+  }, []);
+  return (
+    <>
+      <AppHeader />
+      <main className={stylesApp.main}>
+        <section className={stylesApp.section}>
+          <BurgerIngredients ingredients={ingredients} />
+          <BurgerConstructor />
+        </section>
+      </main>
+    </>
+  );
+};
 
 export default App;

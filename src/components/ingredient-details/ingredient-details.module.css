@@ -1,0 +1,19 @@
+.modal {
+  width: 80%;
+}
+
+.wrp {
+  display: flex;
+  justify-content: space-between;
+}
+
+.img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.center {
+  text-align: center;
+}

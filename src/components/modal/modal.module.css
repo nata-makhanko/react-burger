@@ -1,0 +1,24 @@
+.modal {
+  border-radius: 40px;
+  background-color: #1c1c21;
+  position: fixed;
+  z-index: 1001;
+  min-width: 600px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.children {
+  display: flex;
+  justify-content: center;
+}
