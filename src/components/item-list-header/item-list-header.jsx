@@ -19,9 +19,9 @@ const ItemListHeader = ({ value, isSelectedValue, children }) => {
 };
 
 ItemListHeader.propTypes = {
-  value: PropTypes.string,
+  value: PropTypes.string.isRequired,
   isSelectedValue: PropTypes.bool.isRequired,
-  children: PropTypes.object,
+  children: PropTypes.object.isRequired,
 };
 
 export default ItemListHeader;

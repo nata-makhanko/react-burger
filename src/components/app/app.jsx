@@ -18,8 +18,11 @@ const App = () => {
     const getIngredients = async () => {
       try {
         const res = await fetch(_apiBase);
-        const data = await res.json();
-        setIngredients({ ...data });
+        if (res.ok) {
+          const data = await res.json();
+          setIngredients({ ...data });
+        }
+        throw new Error(`Ошибка ${res.status}`);
       } catch (e) {
         console.log(e);
       }

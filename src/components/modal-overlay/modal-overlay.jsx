@@ -12,7 +12,7 @@ const ModalOverlay = ({ children, onCloseModal }) => {
 
 ModalOverlay.propTypes = {
   children: PropTypes.element,
-  onCloseModal: PropTypes.func,
+  onCloseModal: PropTypes.func.isRequired,
 };
 
 export default ModalOverlay;
