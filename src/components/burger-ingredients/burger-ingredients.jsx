@@ -3,14 +3,20 @@ import PropTypes from "prop-types";
 
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import Ingredient from "../ingredient/ingredient";
+import Modal from "../modal/modal";
+import IngredientDetails from "../ingredient-details/ingredient-details";
 
 import stylesIngredients from "./burger-ingredients.module.css";
 
 const BurgerIngredients = ({ ingredients }) => {
   const [current, setCurrent] = useState("bun");
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [chooseIngedient, setChooseIngredient] = useState({});
+
   const bunRef = useRef();
   const sauceRef = useRef();
   const mainRef = useRef();
+
   useEffect(() => {
     getCurrentRef(current).scrollIntoView(true, {
       behavior: "smooth",
@@ -28,11 +34,28 @@ const BurgerIngredients = ({ ingredients }) => {
     }
   };
 
+  const handleOpenModal = (id) => {
+    const ingredient = ingredients.data.find(({ _id }) => id === _id);
+    setChooseIngredient(ingredient);
+    setIsOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setChooseIngredient({});
+    setIsOpenModal(false);
+  };
+
   const renderIngredients = (ingredients, type) => {
     return ingredients.map((ingredient) => {
       const { _id } = ingredient;
       if (ingredient.type === type) {
-        return <Ingredient key={_id} ingredient={ingredient} />;
+        return (
+          <Ingredient
+            key={_id}
+            ingredient={ingredient}
+            onOpenModal={handleOpenModal}
+          />
+        );
       } else {
         return null;
       }
@@ -57,7 +80,7 @@ const BurgerIngredients = ({ ingredients }) => {
           Булки
         </p>
         <div className={`${stylesIngredients.ingredients} mb-10 pl-4`}>
-          {renderIngredients(ingredients, "bun")}
+          {ingredients.success && renderIngredients(ingredients.data, "bun")}
         </div>
 
         <p
@@ -68,21 +91,29 @@ const BurgerIngredients = ({ ingredients }) => {
           Соусы
         </p>
         <div className={`${stylesIngredients.ingredients} mb-10 pl-4`}>
-          {renderIngredients(ingredients, "sauce")}
+          {ingredients.success && renderIngredients(ingredients.data, "sauce")}
         </div>
         <p ref={mainRef} className="text text_type_main-medium mb-6" id="main">
           Начинка
         </p>
         <div className={`${stylesIngredients.ingredients} mb-10 pl-4`}>
-          {renderIngredients(ingredients, "main")}
+          {ingredients.success && renderIngredients(ingredients.data, "main")}
         </div>
       </div>
+      {isOpenModal && chooseIngedient && (
+        <Modal header="Детали ингредиента" onCloseModal={handleCloseModal}>
+          <IngredientDetails ingredient={chooseIngedient} />
+        </Modal>
+      )}
     </section>
   );
 };
 
 BurgerIngredients.propTypes = {
-  ingredients: PropTypes.array.isRequired,
+  ingredients: PropTypes.shape({
+    success: PropTypes.bool.isRequired,
+    data: PropTypes.array.isRequired,
+  }),
 };
 
 export default BurgerIngredients;

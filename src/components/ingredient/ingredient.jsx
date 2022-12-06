@@ -1,4 +1,5 @@
 import { ingredientType } from "../../utils/types";
+import PropTypes from "prop-types";
 
 import {
   Counter,
@@ -7,10 +8,14 @@ import {
 
 import styleIngredient from "./ingredient.module.css";
 
-const Ingredient = ({ ingredient }) => {
-  const { name, price, image, __v } = ingredient;
+const Ingredient = ({ ingredient, onOpenModal }) => {
+  const { name, price, image, __v, _id } = ingredient;
+
   return (
-    <div className={styleIngredient.ingredient}>
+    <div
+      className={styleIngredient.ingredient}
+      onClick={() => onOpenModal(_id)}
+    >
       {__v ? <Counter count={__v} size="default" extraClass="m-1" /> : null}
       <img
         src={image}
@@ -30,6 +35,7 @@ const Ingredient = ({ ingredient }) => {
 
 Ingredient.propTypes = {
   ingredient: ingredientType,
+  onOpenModal: PropTypes.func.isRequired,
 };
 
 export default Ingredient;
