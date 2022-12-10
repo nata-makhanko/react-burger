@@ -3,34 +3,6 @@
   height: 700px;
 }
 
-.wrp {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  overflow-y: auto;
-}
-
 .tabs {
   display: flex;
-}
-
-.ingredients {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  box-sizing: border-box;
-}
-
-.wrp::-webkit-scrollbar {
-  width: 12px;
-}
-.wrp::-webkit-scrollbar-track {
-  background: #2f2f37;
-}
-.wrp::-webkit-scrollbar-thumb {
-  background: #8585ad;
-  border: 3px solid #2f2f37;
-  border-radius: 6px;
 }
