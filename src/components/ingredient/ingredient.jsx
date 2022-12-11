@@ -50,7 +50,7 @@ const Ingredient = ({ ingredient, allIngredients }) => {
 
 Ingredient.propTypes = {
   ingredient: ingredientType,
-  allIngredients: PropTypes.arrayOf(PropTypes.object),
+  allIngredients: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
 };
 
 export default Ingredient;

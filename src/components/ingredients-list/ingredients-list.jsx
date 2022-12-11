@@ -82,9 +82,9 @@ const IngredientList = ({ bunRef, sauceRef, mainRef }) => {
 };
 
 IngredientList.propTypes = {
-  bunRef: PropTypes.object,
-  sauceRef: PropTypes.object,
-  mainRef: PropTypes.object,
+  bunRef: PropTypes.object.isRequired,
+  sauceRef: PropTypes.object.isRequired,
+  mainRef: PropTypes.object.isRequired,
 };
 
 export default IngredientList;

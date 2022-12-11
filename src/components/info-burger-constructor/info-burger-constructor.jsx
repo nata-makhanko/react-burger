@@ -10,6 +10,7 @@ import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import stylesInfo from "./info-burger-constructor.module.css";
 import { _apiBase } from "../app/app.jsx";
+import { request } from "../../utils/request.js";
 
 const InfoBurgerConstructor = () => {
   const [constructorState, constructorDispatcher] =
@@ -42,22 +43,17 @@ const InfoBurgerConstructor = () => {
   useEffect(() => {
     const postOrder = async () => {
       try {
-        const res = await fetch(`${_apiBase}/orders`, {
+        const data = await request(`${_apiBase}/orders`, {
           method: "POST",
           body: JSON.stringify(ingredietntsID),
           headers: {
             "Content-type": "application/json; charset=UTF-8",
           },
         });
-        if (res.ok) {
-          const data = await res.json();
-          orderDispatcher({
-            type: "set",
-            payload: data.order.number,
-          });
-        } else {
-          throw new Error(`Ошибка ${res.status}`);
-        }
+        orderDispatcher({
+          type: "set",
+          payload: data.order.number,
+        });
       } catch (error) {
         console.log(error);
       }

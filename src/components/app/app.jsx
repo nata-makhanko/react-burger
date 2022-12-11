@@ -23,7 +23,7 @@ import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 
 import stylesApp from "./app.module.css";
-
+import { request } from "../../utils/request.js";
 export const _apiBase = "https://norma.nomoreparties.space/api";
 
 const App = () => {
@@ -51,13 +51,8 @@ const App = () => {
   useEffect(() => {
     const getIngredients = async () => {
       try {
-        const res = await fetch(`${_apiBase}/ingredients`);
-        if (res.ok) {
-          const data = await res.json();
-          ingredientsDispatcher({ type: "fetched", payload: data });
-        } else {
-          throw new Error(`Ошибка ${res.status}`);
-        }
+        const data = await request(`${_apiBase}/ingredients`, {});
+        ingredientsDispatcher({ type: "fetched", payload: data });
       } catch (error) {
         console.log(error);
         ingredientsDispatcher({ type: "error", payload: error });
