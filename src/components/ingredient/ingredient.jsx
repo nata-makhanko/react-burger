@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import { SelectIngredientsContext } from "../../services/select-ingredient-context.js";
 import { ingredientType } from "../../utils/types";
 import PropTypes from "prop-types";
 
@@ -8,15 +10,28 @@ import {
 
 import styleIngredient from "./ingredient.module.css";
 
-const Ingredient = ({ ingredient, onOpenModal }) => {
-  const { name, price, image, __v, _id } = ingredient;
+const Ingredient = ({ ingredient, allIngredients }) => {
+  const { name, price, image, _id } = ingredient;
+  const [selectedState, selectedDispatcher] = useContext(
+    SelectIngredientsContext
+  );
 
+  const handleSelectIngredient = (id) => {
+    const ingredient = allIngredients.find(({ _id }) => id === _id);
+    selectedDispatcher({
+      type: "set",
+      payload: ingredient,
+    });
+  };
+  const countIngredients = 0;
   return (
     <div
       className={styleIngredient.ingredient}
-      onClick={() => onOpenModal(_id)}
+      onClick={() => handleSelectIngredient(_id)}
     >
-      {__v ? <Counter count={__v} size="default" extraClass="m-1" /> : null}
+      {countIngredients > 0 && (
+        <Counter count={countIngredients} size="default" extraClass="m-1" />
+      )}
       <img
         src={image}
         alt={name}
@@ -35,7 +50,7 @@ const Ingredient = ({ ingredient, onOpenModal }) => {
 
 Ingredient.propTypes = {
   ingredient: ingredientType,
-  onOpenModal: PropTypes.func.isRequired,
+  allIngredients: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
 };
 
 export default Ingredient;
