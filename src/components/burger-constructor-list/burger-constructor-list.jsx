@@ -3,6 +3,14 @@ import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { useDrop } from "react-dnd";
 
+import {
+  INCREASE_INGREDIENT,
+  DECREASE_INGREDIENT,
+  ADD_BUN,
+  ADD_INGREDIENT,
+  DELETE_INGREDIENT,
+} from "../../services/actions/drop-constructor";
+
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import BurgerConstructorListItem from "../burger-constructor-list-item/burger-constructor-list-item";
@@ -29,33 +37,33 @@ const BurgerConstructorList = ({ types, title, refDrop, position }) => {
 
   const addBun = (item) => {
     dispatch({
-      type: "INCREASE_INGREDIENT",
+      type: INCREASE_INGREDIENT,
       ingredient: { type: item.type, _id: item._id },
     });
     dispatch({
-      type: "ADD_BUN",
+      type: ADD_BUN,
       ingredient: item,
     });
   };
 
   const addIngredients = (item) => {
     dispatch({
-      type: "INCREASE_INGREDIENT",
+      type: INCREASE_INGREDIENT,
       ingredient: { type: item.type, _id: item._id },
     });
     dispatch({
-      type: "ADD_INGREDIENT",
+      type: ADD_INGREDIENT,
       ingredient: item,
     });
   };
 
   const handleDeleteIngredient = (uuid, id) => {
     dispatch({
-      type: "DECREASE_INGREDIENT",
+      type: DECREASE_INGREDIENT,
       _id: id,
     });
     dispatch({
-      type: "DELETE_INGREDIENT",
+      type: DELETE_INGREDIENT,
       uuid: uuid,
     });
   };

@@ -1,7 +1,15 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getOrderDetails } from "../../services/actions/order-details";
-
+import {
+  SUM_INGREDIENT,
+  CLEAR_INGREDIENTS_CONSTRUCTOR,
+  CLEAR_INGREDIENTS_COUNT,
+} from "../../services/actions/drop-constructor.js";
+import {
+  SELECTED_ORDET_DETAILS,
+  DELETE_ORDET_DETAILS,
+} from "../../services/actions/order-details.js";
 import {
   Button,
   CurrencyIcon,
@@ -25,7 +33,7 @@ const InfoBurgerConstructor = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch({
-      type: "SUM_INGREDIENT",
+      type: SUM_INGREDIENT,
     });
   }, [ingredientsConstructor]);
 
@@ -37,7 +45,7 @@ const InfoBurgerConstructor = () => {
     if (orderDetailsFailed) {
       return <p>Произошла ошибка при получении данных</p>;
     } else if (orderDetailsRequest) {
-      return <p>Загрузка...</p>;
+      console.log("efefef");
     } else {
       return orderDetails;
     }
@@ -50,20 +58,20 @@ const InfoBurgerConstructor = () => {
   useEffect(() => {
     if (orderDetails?.order) {
       dispatch({
-        type: "SELECTED_ORDET_DETAILS",
+        type: SELECTED_ORDET_DETAILS,
       });
       dispatch({
-        type: "CLEAR_INGREDIENTS_CONSTRUCTOR",
+        type: CLEAR_INGREDIENTS_CONSTRUCTOR,
       });
       dispatch({
-        type: "CLEAR_INGREDIENTS_COUNT",
+        type: CLEAR_INGREDIENTS_COUNT,
       });
     }
   }, [orderDetails]);
 
   const handleCloseModal = () => {
     dispatch({
-      type: "DELETE_ORDET_DETAILS",
+      type: DELETE_ORDET_DETAILS,
     });
   };
 
@@ -78,11 +86,16 @@ const InfoBurgerConstructor = () => {
         type="primary"
         size="large"
         onClick={handleOpenModal}
+        disabled={ingredientsConstructor.length === 0 ? true : false}
       >
         Оформить заказ
       </Button>
       {isOpenModalOrder && (
-        <Modal header="" onCloseModal={handleCloseModal}>
+        <Modal
+          header=""
+          onCloseModal={handleCloseModal}
+          isOpenModal={isOpenModalOrder}
+        >
           <OrderDetails />
         </Modal>
       )}

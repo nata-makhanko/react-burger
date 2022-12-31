@@ -1,6 +1,10 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getIngredients } from "../../services/actions/burger-ingredients";
+import {
+  SELECTED_INGREDIENT,
+  DELETE_SELECTED_INGREDIENT,
+} from "../../services/actions/burger-ingredients";
 import PropTypes from "prop-types";
 
 import Modal from "../modal/modal";
@@ -27,14 +31,14 @@ const IngredientList = ({ bunRef, sauceRef, mainRef }) => {
 
   const handleSelectedIngredient = (id) => {
     dispatch({
-      type: "SELECTED_INGREDIENT",
+      type: SELECTED_INGREDIENT,
       id: id,
     });
   };
 
   const handleCloseModal = () => {
     dispatch({
-      type: "DELETE_SELECTED_INGREDIENT",
+      type: DELETE_SELECTED_INGREDIENT,
     });
   };
   const renderCounIngredient = (id) => {

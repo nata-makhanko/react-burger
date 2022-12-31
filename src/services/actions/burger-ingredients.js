@@ -1,4 +1,5 @@
 import { _apiBase } from "../api";
+import { request } from "../../utils/request";
 
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
@@ -21,22 +22,12 @@ export function getIngredients() {
         dispatch({
             type: GET_INGREDIENTS_REQUEST,
         });
-        fetch(`${_apiBase}/ingredients`)
-            .then(res => {
-                if (res && res.ok) {
-                    return res.json()
-                } else {
-                    dispatch({
-                        type: GET_INGREDIENTS_FAILED,
-                    });
-                }
-            })
-            .then(response => {
-                dispatch({
-                    type: GET_INGREDIENTS_SUCCESS,
-                    ingredients: response.data,
-                });
-            })
+        request(`${_apiBase}/ingredients`, {}).then(response => {
+            dispatch({
+                type: GET_INGREDIENTS_SUCCESS,
+                ingredients: response.data,
+            });
+        })
             .catch(error => {
                 dispatch({
                     type: GET_INGREDIENTS_FAILED,
