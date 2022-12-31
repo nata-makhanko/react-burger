@@ -1,9 +1,12 @@
 import stylesIngredientDetails from "./ingredient-details.module.css";
-import { ingredientType } from "../../utils/types";
+import { useSelector } from "react-redux";
 
-const IngredientDetails = ({ ingredient }) => {
+const IngredientDetails = () => {
+  const { selectedIngredient } = useSelector(
+    (state) => state.burgerIngredients
+  );
   const { name, image_large, calories, proteins, fat, carbohydrates } =
-    ingredient;
+    selectedIngredient[0];
   return (
     <div className={`${stylesIngredientDetails.modal} mb-15`}>
       <img
@@ -60,10 +63,6 @@ const IngredientDetails = ({ ingredient }) => {
       </div>
     </div>
   );
-};
-
-IngredientDetails.propTypes = {
-  ingredient: ingredientType,
 };
 
 export default IngredientDetails;

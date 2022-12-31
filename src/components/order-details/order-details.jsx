@@ -1,32 +1,36 @@
-import stylesOrderDetails from "./order-details.module.css";
+import styles from "./order-details.module.css";
+import { useEffect, useRef } from "react";
 import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { OrderContext } from "../../services/order-context.js";
-import { useContext } from "react";
+import { useSelector } from "react-redux";
 
 const OrderDetails = () => {
-  const [orderState] = useContext(OrderContext);
+  const { orderDetails } = useSelector((state) => state.orderDetails);
+
+  let orderNumber = useRef(0);
+
+  useEffect(() => {
+    if (orderDetails?.order) {
+      orderNumber.current = orderDetails.order.number;
+    }
+  }, [orderDetails]);
   return (
     <div className="mt-10 mb-30">
       <p
-        className={`${stylesOrderDetails.number} ${stylesOrderDetails.center} text text_type_digits-large mb-8`}
+        className={`${styles.number} ${styles.center} text text_type_digits-large mb-8`}
       >
-        {orderState.orderNumber}
+        {orderNumber.current}
       </p>
-      <p
-        className={`${stylesOrderDetails.center} text text_type_main-medium mb-15`}
-      >
+      <p className={`${styles.center} text text_type_main-medium mb-15`}>
         идентификатор заказа
       </p>
-      <div className={`${stylesOrderDetails.icon} mb-15`}>
+      <div className={`${styles.icon} mb-15`}>
         <CheckMarkIcon type="primary" />
       </div>
-      <p
-        className={`${stylesOrderDetails.center} text text_type_main-default mb-2`}
-      >
+      <p className={`${styles.center} text text_type_main-default mb-2`}>
         Ваш заказ начали готовить
       </p>
       <p
-        className={`${stylesOrderDetails.center} text text_type_main-default text_color_inactive`}
+        className={`${styles.center} text text_type_main-default text_color_inactive`}
       >
         Дождитесь готовности на орбитальной станции
       </p>

@@ -9,7 +9,7 @@ import stylesModal from "./modal.module.css";
 
 const reactModal = document.querySelector("#modals");
 
-const Modal = ({ header, children, onCloseModal }) => {
+const Modal = ({ header, children, onCloseModal, isOpenModal }) => {
   useEffect(() => {
     const closeModal = (e) => {
       if (e.key === "Escape") {
@@ -18,7 +18,7 @@ const Modal = ({ header, children, onCloseModal }) => {
     };
     document.addEventListener("keydown", closeModal);
     return () => document.removeEventListener("keydown", closeModal);
-  }, [onCloseModal]);
+  }, [isOpenModal]);
   return createPortal(
     <ModalOverlay onCloseModal={onCloseModal}>
       <div
@@ -42,6 +42,7 @@ Modal.propTypes = {
   header: PropTypes.string.isRequired,
   children: PropTypes.element.isRequired,
   onCloseModal: PropTypes.func.isRequired,
+  isOpenModal: PropTypes.bool.isRequired,
 };
 
 export default Modal;

@@ -1,64 +1,22 @@
-import { v4 as uuidv4 } from "uuid";
-
-import { useContext } from "react";
-import { ConstructorContext } from "../../services/constructor-context.js";
-
-import TopBurgerConstructor from "../top-burger-constructor/top-burger-constructor";
-import BottomBurgerConstructor from "../bottom-burger-constructor/bottom-burger-constructor";
-import CenterBurgerConstructor from "../center-burger-constructor/center-burger-constructor";
+import BurgerConstructorList from "../burger-constructor-list/burger-constructor-list";
 import InfoBurgerConstructor from "../info-burger-constructor/info-burger-constructor";
+import { useSelector } from "react-redux";
 
-import stylesConstructor from "./burger-constructor.module.css";
+import styles from "./burger-constructor.module.css";
 
 const BurgerConstructor = () => {
-  const [constructorState] = useContext(ConstructorContext);
+  const typeIngredients = useSelector(
+    (state) => state.dropConstructor.typeIngredients
+  );
+
   return (
-    <section className={`${stylesConstructor.main} mt-25`}>
-      <div className={`${stylesConstructor.wrp} mb-10`}>
-        <div className={stylesConstructor.top}>
-          {constructorState.constructorBurger.length > 0 &&
-            constructorState.constructorBurger.map((ingredient) => {
-              if (ingredient.type === "bun") {
-                return (
-                  <TopBurgerConstructor
-                    ingredient={ingredient}
-                    key={uuidv4()}
-                  />
-                );
-              }
-              return null;
-            })}
-        </div>
-        <div className={stylesConstructor.center}>
-          {constructorState.constructorBurger.length > 0 &&
-            constructorState.constructorBurger.map((ingredient) => {
-              if (ingredient.type === "main" || ingredient.type === "sauce") {
-                return (
-                  <CenterBurgerConstructor
-                    ingredient={ingredient}
-                    key={uuidv4()}
-                  />
-                );
-              }
-              return null;
-            })}
-        </div>
-        <div className={stylesConstructor.bottom}>
-          {constructorState.constructorBurger.length > 0 &&
-            constructorState.constructorBurger.map((ingredient) => {
-              if (ingredient.type === "bun") {
-                return (
-                  <BottomBurgerConstructor
-                    ingredient={ingredient}
-                    key={uuidv4()}
-                  />
-                );
-              }
-              return null;
-            })}
-        </div>
+    <section className={`${styles.main} mt-25`}>
+      <div className={`${styles.wrp} mb-10`}>
+        {typeIngredients.map((type) => {
+          return <BurgerConstructorList {...type} key={type.position} />;
+        })}
+        <InfoBurgerConstructor />
       </div>
-      {<InfoBurgerConstructor />}
     </section>
   );
 };

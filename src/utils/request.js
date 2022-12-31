@@ -1,10 +1,10 @@
-export function checkResponse(res) {
-    if (res.ok) {
-        const data = res.json();
-        return data;
+export function checkResponse(response) {
+    if (response && response.ok) {
+        return response.json()
     } else {
-        throw new Error(`Ошибка ${res.status}`);
+        throw new Error(`Ошибка ${response.status}`);
     }
+
 }
 
 export function request(url, options) {

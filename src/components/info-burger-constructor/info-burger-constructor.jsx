@@ -1,88 +1,84 @@
-import { useState, useContext, useEffect, useRef } from "react";
-import { ConstructorContext } from "../../services/constructor-context.js";
-import { OrderContext } from "../../services/order-context.js";
-
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getOrderDetails } from "../../services/actions/order-details";
+import {
+  SUM_INGREDIENT,
+  CLEAR_INGREDIENTS_CONSTRUCTOR,
+  CLEAR_INGREDIENTS_COUNT,
+} from "../../services/actions/drop-constructor.js";
+import {
+  SELECTED_ORDET_DETAILS,
+  DELETE_ORDET_DETAILS,
+} from "../../services/actions/order-details.js";
 import {
   Button,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import stylesInfo from "./info-burger-constructor.module.css";
-import { _apiBase } from "../app/app.jsx";
-import { request } from "../../utils/request.js";
+import styles from "./info-burger-constructor.module.css";
 
 const InfoBurgerConstructor = () => {
-  const [constructorState, constructorDispatcher] =
-    useContext(ConstructorContext);
-  const [orderState, orderDispatcher] = useContext(OrderContext);
+  const { ingredientsConstructor, sumIngredients } = useSelector(
+    (state) => state.dropConstructor
+  );
 
-  const [isOpenModal, setIsOpenModal] = useState(false);
-  const [ingredietntsID, setIngredientsID] = useState({
-    ingredients: [],
-  });
+  const {
+    orderDetails,
+    orderDetailsRequest,
+    orderDetailsFailed,
+    isOpenModalOrder,
+  } = useSelector((state) => state.orderDetails);
 
-  let sum = useRef(0);
+  const dispatch = useDispatch();
   useEffect(() => {
-    if (constructorState.constructorBurger.length > 0) {
-      sum.current = constructorState.constructorBurger.reduce(
-        (acc, { price, type }) => {
-          if (type === "bun") {
-            return acc + price * 2;
-          } else {
-            return acc + price;
-          }
-        },
-        0
-      );
-    }
-    let ids = constructorState.constructorBurger.map(({ _id }) => _id);
-    setIngredientsID({ ingredients: ids });
-  }, [constructorState.constructorBurger]);
+    dispatch({
+      type: SUM_INGREDIENT,
+    });
+  }, [ingredientsConstructor]);
 
-  useEffect(() => {
-    const postOrder = async () => {
-      try {
-        const data = await request(`${_apiBase}/orders`, {
-          method: "POST",
-          body: JSON.stringify(ingredietntsID),
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-          },
-        });
-        orderDispatcher({
-          type: "set",
-          payload: data.order.number,
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    if (isOpenModal) {
-      postOrder();
+  const handleOrderDetails = () => {
+    const ingredietntsID = ingredientsConstructor.map(
+      (ingredient) => ingredient._id
+    );
+    dispatch(getOrderDetails({ ingredients: ingredietntsID }));
+    if (orderDetailsFailed) {
+      return <p>Произошла ошибка при получении данных</p>;
+    } else if (orderDetailsRequest) {
+      console.log("efefef");
+    } else {
+      return orderDetails;
     }
-    return () => {
-      constructorDispatcher({
-        type: "reset",
-      });
-      sum.current = 0;
-      orderDispatcher({
-        type: "reset",
-      });
-    };
-  }, [isOpenModal]);
-  const handleOpenModal = () => {
-    setIsOpenModal(true);
   };
 
+  const handleOpenModal = () => {
+    handleOrderDetails();
+  };
+
+  useEffect(() => {
+    if (orderDetails?.order) {
+      dispatch({
+        type: SELECTED_ORDET_DETAILS,
+      });
+      dispatch({
+        type: CLEAR_INGREDIENTS_CONSTRUCTOR,
+      });
+      dispatch({
+        type: CLEAR_INGREDIENTS_COUNT,
+      });
+    }
+  }, [orderDetails]);
+
   const handleCloseModal = () => {
-    setIsOpenModal(false);
+    dispatch({
+      type: DELETE_ORDET_DETAILS,
+    });
   };
 
   return (
-    <div className={stylesInfo.info}>
-      <div className={`${stylesInfo.price} mr-10`}>
-        <p className="text text_type_digits-medium mr-2">{sum.current}</p>
+    <div className={styles.info}>
+      <div className={`${styles.price} mr-10`}>
+        <p className="text text_type_digits-medium mr-2">{sumIngredients}</p>
         <CurrencyIcon type="primary" />
       </div>
       <Button
@@ -90,11 +86,16 @@ const InfoBurgerConstructor = () => {
         type="primary"
         size="large"
         onClick={handleOpenModal}
+        disabled={ingredientsConstructor.length === 0 ? true : false}
       >
         Оформить заказ
       </Button>
-      {isOpenModal && (
-        <Modal header="" onCloseModal={handleCloseModal}>
+      {isOpenModalOrder && (
+        <Modal
+          header=""
+          onCloseModal={handleCloseModal}
+          isOpenModal={isOpenModalOrder}
+        >
           <OrderDetails />
         </Modal>
       )}
