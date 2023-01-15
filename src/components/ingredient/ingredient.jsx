@@ -1,6 +1,6 @@
-import { useContext } from "react";
-import { SelectIngredientsContext } from "../../services/select-ingredient-context.js";
 import { ingredientType } from "../../utils/types";
+import { useDrag } from "react-dnd";
+import { v4 as uuidv4 } from "uuid";
 import PropTypes from "prop-types";
 
 import {
@@ -10,28 +10,34 @@ import {
 
 import styleIngredient from "./ingredient.module.css";
 
-const Ingredient = ({ ingredient, allIngredients }) => {
-  const { name, price, image, _id } = ingredient;
-  const [selectedState, selectedDispatcher] = useContext(
-    SelectIngredientsContext
-  );
+const Ingredient = ({ ingredient, onToggleModal, count }) => {
+  const { name, price, image, _id, type, image_mobile } = ingredient;
+  const [{ isDragging }, dragRef] = useDrag({
+    type: type,
+    item: {
+      _id,
+      uuid: uuidv4(),
+      name,
+      price,
+      image_mobile,
+      type,
+    },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
 
-  const handleSelectIngredient = (id) => {
-    const ingredient = allIngredients.find(({ _id }) => id === _id);
-    selectedDispatcher({
-      type: "set",
-      payload: ingredient,
-    });
-  };
-  const countIngredients = 0;
+  const opacity = isDragging ? 0.4 : 1;
+
   return (
     <div
       className={styleIngredient.ingredient}
-      onClick={() => handleSelectIngredient(_id)}
+      onClick={() => onToggleModal(_id)}
+      draggable
+      ref={dragRef}
+      style={{ opacity }}
     >
-      {countIngredients > 0 && (
-        <Counter count={countIngredients} size="default" extraClass="m-1" />
-      )}
+      {count > 0 && <Counter count={count} size="default" extraClass="m-1" />}
       <img
         src={image}
         alt={name}
@@ -50,7 +56,8 @@ const Ingredient = ({ ingredient, allIngredients }) => {
 
 Ingredient.propTypes = {
   ingredient: ingredientType,
-  allIngredients: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
+  onToggleModal: PropTypes.func.isRequired,
+  count: PropTypes.number.isRequired,
 };
 
 export default Ingredient;

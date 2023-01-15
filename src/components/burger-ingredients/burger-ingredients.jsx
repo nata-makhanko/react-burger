@@ -1,32 +1,77 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
+import { useInView } from "react-intersection-observer";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientList from "../ingredients-list/ingredients-list";
 import stylesIngredients from "./burger-ingredients.module.css";
 
 const BurgerIngredients = () => {
   const [currentTab, setCurrentTab] = useState("bun");
+  const bunRef = useRef();
+  const sauceRef = useRef();
+  const mainRef = useRef();
 
-  const bunRef = useRef(null);
-  const sauceRef = useRef(null);
-  const mainRef = useRef(null);
+  const { ref: bunRefInView, inView: setTabBun } = useInView({
+    threshold: 1,
+  });
+
+  const { ref: sauceRefInView, inView: setTabSauce } = useInView({
+    threshold: 1,
+  });
+
+  const { ref: mainRefInView, inView: setTabMain } = useInView({
+    threshold: 0.6,
+  });
+
+  const setBunRef = useCallback(
+    (node) => {
+      bunRef.current = node;
+      bunRefInView(node);
+    },
+    [bunRefInView]
+  );
+
+  const setSauseRef = useCallback(
+    (node) => {
+      sauceRef.current = node;
+      sauceRefInView(node);
+    },
+    [sauceRefInView]
+  );
+
+  const setMainRef = useCallback(
+    (node) => {
+      mainRef.current = node;
+      mainRefInView(node);
+    },
+    [mainRefInView]
+  );
 
   useEffect(() => {
-    getCurrentRef(currentTab).scrollIntoView(true, {
-      behavior: "smooth",
-    });
-  }, [currentTab]);
-
-  const getCurrentRef = (id) => {
-    switch (id) {
-      case "bun":
-        return bunRef.current;
-      case "sauce":
-        return sauceRef.current;
-      default:
-        return mainRef.current;
+    if (setTabBun) {
+      setCurrentTab("bun");
+    } else if (setTabSauce) {
+      setCurrentTab("sauce");
+    } else if (setTabMain) {
+      setCurrentTab("main");
     }
-  };
+  }, [setTabBun, setTabSauce, setTabMain]);
+
+  useEffect(() => {
+    if (currentTab === bunRef.current.id) {
+      bunRef.current.scrollIntoView(true, {
+        behavior: "smooth",
+      });
+    } else if (currentTab === sauceRef.current.id) {
+      sauceRef.current.scrollIntoView(true, {
+        behavior: "smooth",
+      });
+    } else if (currentTab === mainRef.current.id) {
+      mainRef.current.scrollIntoView(true, {
+        behavior: "smooth",
+      });
+    }
+  }, [currentTab]);
 
   return (
     <section className={stylesIngredients.section}>
@@ -50,7 +95,11 @@ const BurgerIngredients = () => {
           Начинки
         </Tab>
       </div>
-      <IngredientList bunRef={bunRef} sauceRef={sauceRef} mainRef={mainRef} />
+      <IngredientList
+        bunRef={setBunRef}
+        sauceRef={setSauseRef}
+        mainRef={setMainRef}
+      />
     </section>
   );
 };
