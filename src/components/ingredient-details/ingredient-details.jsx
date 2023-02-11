@@ -1,67 +1,88 @@
 import stylesIngredientDetails from "./ingredient-details.module.css";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { getIngredients } from "../../services/actions/burger-ingredients";
 
 const IngredientDetails = () => {
-  const { selectedIngredient } = useSelector(
+  let { id } = useParams();
+
+  const dispatch = useDispatch();
+  const { ingredients, isLoadedIngredients } = useSelector(
     (state) => state.burgerIngredients
   );
-  const { name, image_large, calories, proteins, fat, carbohydrates } =
-    selectedIngredient[0];
+
+  const selectedIngredient = ingredients.find(
+    (ingredient) => ingredient._id === id
+  );
+
+  useEffect(() => {
+    if (!isLoadedIngredients) {
+      dispatch(getIngredients());
+    }
+  }, [isLoadedIngredients]);
+
   return (
-    <div className={`${stylesIngredientDetails.modal} mb-15`}>
-      <img
-        src={image_large}
-        alt={name}
-        className={`${stylesIngredientDetails.img} mb-4`}
-      />
-      <p
-        className={`${stylesIngredientDetails.center} text text_type_main-medium mb-8`}
-      >
-        {name}
-      </p>
-      <div className={stylesIngredientDetails.wrp}>
-        <div>
-          <p className="text text_type_main-default text_color_inactive mb-2">
-            Калории, ккал
-          </p>
+    <>
+      {isLoadedIngredients ? (
+        <div className={`${stylesIngredientDetails.modal} mb-15`}>
+          <img
+            src={selectedIngredient.image_large}
+            alt={selectedIngredient.name}
+            className={`${stylesIngredientDetails.img} mb-4`}
+          />
           <p
-            className={`${stylesIngredientDetails.center} text text_type_digits-default text_color_inactive`}
+            className={`${stylesIngredientDetails.center} text text_type_main-medium mb-8`}
           >
-            {calories}
+            {selectedIngredient.name}
           </p>
+          <div className={stylesIngredientDetails.wrp}>
+            <div>
+              <p className="text text_type_main-default text_color_inactive mb-2">
+                Калории, ккал
+              </p>
+              <p
+                className={`${stylesIngredientDetails.center} text text_type_digits-default text_color_inactive`}
+              >
+                {selectedIngredient.calories}
+              </p>
+            </div>
+            <div>
+              <p className="text text_type_main-default text_color_inactive mb-2">
+                Белки, г
+              </p>
+              <p
+                className={`${stylesIngredientDetails.center} text text_type_digits-default text_color_inactive`}
+              >
+                {selectedIngredient.proteins}
+              </p>
+            </div>
+            <div>
+              <p className="text text_type_main-default text_color_inactive mb-2">
+                Жиры, г
+              </p>
+              <p
+                className={`${stylesIngredientDetails.center} text text_type_digits-default text_color_inactive`}
+              >
+                {selectedIngredient.fat}
+              </p>
+            </div>
+            <div>
+              <p className="text text_type_main-default text_color_inactive mb-2">
+                Углеводы, г
+              </p>
+              <p
+                className={`${stylesIngredientDetails.center} text text_type_digits-default text_color_inactive`}
+              >
+                {selectedIngredient.carbohydrates}
+              </p>
+            </div>
+          </div>
         </div>
-        <div>
-          <p className="text text_type_main-default text_color_inactive mb-2">
-            Белки, г
-          </p>
-          <p
-            className={`${stylesIngredientDetails.center} text text_type_digits-default text_color_inactive`}
-          >
-            {proteins}
-          </p>
-        </div>
-        <div>
-          <p className="text text_type_main-default text_color_inactive mb-2">
-            Жиры, г
-          </p>
-          <p
-            className={`${stylesIngredientDetails.center} text text_type_digits-default text_color_inactive`}
-          >
-            {fat}
-          </p>
-        </div>
-        <div>
-          <p className="text text_type_main-default text_color_inactive mb-2">
-            Углеводы, г
-          </p>
-          <p
-            className={`${stylesIngredientDetails.center} text text_type_digits-default text_color_inactive`}
-          >
-            {carbohydrates}
-          </p>
-        </div>
-      </div>
-    </div>
+      ) : (
+        <p>Загрузка данных...</p>
+      )}
+    </>
   );
 };
 

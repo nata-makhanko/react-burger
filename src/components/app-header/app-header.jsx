@@ -2,42 +2,73 @@ import { Logo } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ListIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import ItemListHeader from "../item-list-header/item-list-header";
-import stylesHeader from "./app-header.module.css";
+import { NavLink, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+import styles from "./app-header.module.css";
 
 const AppHeader = () => {
+  const { isUserLoaded, user } = useSelector((state) => state.auth);
+  const location = useLocation();
+
   const paddingItems = "pt-4 pr-5 pb-4 pl-5";
   return (
-    <header className={`${stylesHeader.header} pt-4 pb-4`}>
-      <nav className={stylesHeader.nav}>
-        <ul className={stylesHeader.list}>
-          <li
-            className={`${stylesHeader.item} ${paddingItems} mr-2`}
-            tabIndex={1}
+    <header className={`${styles.header} pt-4 pb-4`}>
+      <nav className={styles.nav}>
+        <ul className={styles.list}>
+          <NavLink
+            to="/"
+            exact
+            activeClassName={styles.active}
+            className="text_color_inactive"
           >
-            <ItemListHeader
-              children={<BurgerIcon type="primary" />}
-              value="Конструктор"
-              isSelectedValue={true}
-            />
-          </li>
-          <li className={`${stylesHeader.item} ${paddingItems}`} tabIndex={1}>
-            <ItemListHeader
-              children={<ListIcon type="secondary" />}
-              value="Лента заказов"
-              isSelectedValue={false}
-            />
-          </li>
+            <li className={`${styles.item} ${paddingItems} mr-2`} tabIndex={1}>
+              <BurgerIcon
+                type={location.pathname === "/" ? "primary" : "secondary"}
+              />
+              <span className="text text_type_main-default ml-2 ml-2">
+                Конструктор
+              </span>
+            </li>
+          </NavLink>
+          <NavLink
+            to="/feed"
+            activeClassName={styles.active}
+            className="text_color_inactive"
+          >
+            <li className={`${styles.item} ${paddingItems}`} tabIndex={1}>
+              <ListIcon
+                type={location.pathname === "/feed" ? "primary" : "secondary"}
+              />
+              <span className="text text_type_main-default ml-2 ml-2">
+                Лента заказов
+              </span>
+            </li>
+          </NavLink>
         </ul>
-        <Logo />
-        <ul className={stylesHeader.personal}>
-          <li className={`${stylesHeader.item} ${paddingItems}`} tabIndex={1}>
-            <ItemListHeader
-              children={<ProfileIcon type="secondary" />}
-              value="Личный кабинет"
-              isSelectedValue={false}
-            />
-          </li>
+        <NavLink to="/" exact>
+          <Logo />
+        </NavLink>
+        <ul className={styles.personal}>
+          <NavLink
+            to="/profile"
+            activeClassName={styles.active}
+            className="text_color_inactive"
+          >
+            <li className={`${styles.item} ${paddingItems}`} tabIndex={1}>
+              <ProfileIcon
+                type={
+                  location.pathname === "/profile" ||
+                  location.pathname === "/login"
+                    ? "primary"
+                    : "secondary"
+                }
+              />
+              <span className="text text_type_main-default ml-2 ml-2">
+                {isUserLoaded && user?.name ? user.name : "Личный кабинет"}
+              </span>
+            </li>
+          </NavLink>
         </ul>
       </nav>
     </header>

@@ -1,5 +1,6 @@
 import { _apiBase } from "../api";
-import { request } from "../../utils/request";
+import { requestWithToken } from "../../utils/request";
+import { getCookie } from "../../utils/cookies";
 
 export const GET_ORDER_DETAILS_REQUEST = 'GET_ORDER_DETAILS_REQUEST';
 export const GET_ORDER_DETAILS_SUCCESS = 'GET_ORDER_DETAILS_SUCCESS';
@@ -14,11 +15,12 @@ export function getOrderDetails(ingredietntsID) {
         dispatch({
             type: GET_ORDER_DETAILS_REQUEST,
         });
-        request(`${_apiBase}/orders`, {
+        requestWithToken(`${_apiBase}/orders`, {
             method: "POST",
             body: JSON.stringify(ingredietntsID),
             headers: {
                 "Content-type": "application/json; charset=UTF-8",
+                Authorization: 'Bearer ' + getCookie('token'),
             }
         }).then(response => {
             dispatch({
@@ -33,3 +35,5 @@ export function getOrderDetails(ingredietntsID) {
             })
     }
 }
+
+

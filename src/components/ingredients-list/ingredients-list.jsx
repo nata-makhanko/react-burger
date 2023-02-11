@@ -1,14 +1,9 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getIngredients } from "../../services/actions/burger-ingredients";
-import {
-  SELECTED_INGREDIENT,
-  DELETE_SELECTED_INGREDIENT,
-} from "../../services/actions/burger-ingredients";
+
 import PropTypes from "prop-types";
 
-import Modal from "../modal/modal";
-import IngredientDetails from "../ingredient-details/ingredient-details";
 import Ingredient from "../ingredient/ingredient.jsx";
 
 import styles from "./ingredients-list.module.css";
@@ -20,27 +15,17 @@ const IngredientList = ({ bunRef, sauceRef, mainRef }) => {
     ingredients,
     ingredientsRequest,
     ingredientsFailed,
-    isOpenModalIngredient,
+    isLoadedIngredients,
   } = useSelector((state) => state.burgerIngredients);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getIngredients());
-  }, []);
+    if (!isLoadedIngredients) {
+      dispatch(getIngredients());
+    }
+  }, [isLoadedIngredients]);
 
-  const handleSelectedIngredient = (id) => {
-    dispatch({
-      type: SELECTED_INGREDIENT,
-      id: id,
-    });
-  };
-
-  const handleCloseModal = () => {
-    dispatch({
-      type: DELETE_SELECTED_INGREDIENT,
-    });
-  };
   const renderCounIngredient = (id) => {
     const ingredientWithCount = countInggredients
       .map((ingredient) => {
@@ -67,14 +52,7 @@ const IngredientList = ({ bunRef, sauceRef, mainRef }) => {
         const { _id } = ingredient;
         if (ingredient.type === type) {
           const count = renderCounIngredient(_id);
-          return (
-            <Ingredient
-              key={_id}
-              ingredient={ingredient}
-              onToggleModal={handleSelectedIngredient}
-              count={count}
-            />
-          );
+          return <Ingredient key={_id} ingredient={ingredient} count={count} />;
         } else {
           return null;
         }
@@ -102,16 +80,6 @@ const IngredientList = ({ bunRef, sauceRef, mainRef }) => {
           {renderIngredients("main")}
         </div>
       </div>
-
-      {isOpenModalIngredient && (
-        <Modal
-          header="Детали ингредиента"
-          onCloseModal={handleCloseModal}
-          isOpenModal={isOpenModalIngredient}
-        >
-          <IngredientDetails />
-        </Modal>
-      )}
     </div>
   );
 };

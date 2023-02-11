@@ -16,6 +16,9 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
+
+import { useHistory } from "react-router-dom";
+
 import styles from "./info-burger-constructor.module.css";
 
 const InfoBurgerConstructor = () => {
@@ -28,7 +31,12 @@ const InfoBurgerConstructor = () => {
     orderDetailsRequest,
     orderDetailsFailed,
     isOpenModalOrder,
+    isLoading,
   } = useSelector((state) => state.orderDetails);
+
+  const { authauthorized } = useSelector((state) => state.auth);
+
+  const history = useHistory();
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -38,16 +46,20 @@ const InfoBurgerConstructor = () => {
   }, [ingredientsConstructor]);
 
   const handleOrderDetails = () => {
-    const ingredietntsID = ingredientsConstructor.map(
-      (ingredient) => ingredient._id
-    );
-    dispatch(getOrderDetails({ ingredients: ingredietntsID }));
-    if (orderDetailsFailed) {
-      return <p>Произошла ошибка при получении данных</p>;
-    } else if (orderDetailsRequest) {
-      console.log("efefef");
+    if (!authauthorized) {
+      history.push("/login");
     } else {
-      return orderDetails;
+      const ingredietntsID = ingredientsConstructor.map(
+        (ingredient) => ingredient._id
+      );
+      dispatch(getOrderDetails({ ingredients: ingredietntsID }));
+      if (orderDetailsFailed) {
+        return <p>Произошла ошибка при получении данных</p>;
+      } else if (orderDetailsRequest) {
+        console.log("efefef");
+      } else {
+        return orderDetails;
+      }
     }
   };
 
@@ -90,7 +102,11 @@ const InfoBurgerConstructor = () => {
       >
         Оформить заказ
       </Button>
-      {isOpenModalOrder && (
+      {isLoading ? (
+        <Modal header="Загрузка данных..." onCloseModal={handleCloseModal}>
+          <p></p>
+        </Modal>
+      ) : isOpenModalOrder ? (
         <Modal
           header=""
           onCloseModal={handleCloseModal}
@@ -98,7 +114,7 @@ const InfoBurgerConstructor = () => {
         >
           <OrderDetails />
         </Modal>
-      )}
+      ) : null}
     </div>
   );
 };
