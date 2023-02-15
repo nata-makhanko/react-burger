@@ -16,7 +16,9 @@ const initialState = {
     logoutRequest: false,
     logoutFailed: false,
 
-    authauthorized: !!localStorage.getItem('refreshToken'),
+    isLoggedIn: false,
+
+    authauthorized: !!getCookie('token'),
 
 }
 
@@ -35,6 +37,7 @@ export const authReducer = (state = initialState, action) => {
                 profileFailed: false,
                 user: action.user,
                 isUserLoaded: action.isUserLoaded,
+                isLoggedIn: true,
             }
         case GET_PROFILE_FAILED:
             return {
@@ -76,6 +79,7 @@ export const authReducer = (state = initialState, action) => {
                 loginRequest: false,
                 loginFailed: false,
                 isUserLoaded: action.isUserLoaded,
+                isLoggedIn: true,
                 authauthorized: !!getCookie('token'),
             }
         case LOGIN_FAILED:
@@ -119,7 +123,7 @@ export const authReducer = (state = initialState, action) => {
                 logoutFailed: false,
                 isUserLoaded: action.isUserLoaded,
                 user: {},
-                authauthorized: !!localStorage.getItem('refreshToken')
+                isLoggedIn: false,
             }
         case LOGOUT_FAILED:
             return {

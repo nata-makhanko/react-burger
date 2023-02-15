@@ -1,27 +1,27 @@
-import { useSelector } from "react-redux";
-
 import { Route, Redirect, useLocation } from "react-router-dom";
+import { getCookie } from "../utils/cookies";
 
-const ProtectedRouteElement = ({ element, path }) => {
-  const { isUserLoaded, authauthorized } = useSelector((state) => state.auth);
+const ProtectedRoute = ({ onlyForAuth, children, ...rest }) => {
+  const isAuthorized = getCookie("token");
   const location = useLocation();
-
-  if (authauthorized) {
+  if (!onlyForAuth && isAuthorized) {
+    const { from } = location.state || { from: { pathname: "/" } };
     return (
-      <Route path={path} exact>
-        {element}
+      <Route {...rest}>
+        <Redirect to={from} />
       </Route>
     );
-  } else {
+  }
+
+  if (onlyForAuth && !isAuthorized) {
     return (
-      <Redirect
-        to={{
-          pathname: "/login",
-          state: { from: location },
-        }}
-      />
+      <Route {...rest}>
+        <Redirect to={{ pathname: "/login", state: { from: location } }} />
+      </Route>
     );
   }
+
+  return <Route {...rest}>{children}</Route>;
 };
 
-export default ProtectedRouteElement;
+export default ProtectedRoute;

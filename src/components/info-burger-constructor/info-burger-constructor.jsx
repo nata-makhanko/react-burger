@@ -55,8 +55,6 @@ const InfoBurgerConstructor = () => {
       dispatch(getOrderDetails({ ingredients: ingredietntsID }));
       if (orderDetailsFailed) {
         return <p>Произошла ошибка при получении данных</p>;
-      } else if (orderDetailsRequest) {
-        console.log("efefef");
       } else {
         return orderDetails;
       }

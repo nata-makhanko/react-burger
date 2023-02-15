@@ -10,7 +10,7 @@ import ForgotPassword from "../pages/forgot-password";
 import ResetPassword from "../pages/reset-password";
 import Profile from "../pages/profile";
 import NotFound from "../pages/not-found";
-import ProtectedRouteElement from "../protected-route";
+import ProtectedRoute from "../protected-route";
 
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -24,7 +24,7 @@ import { getProfile } from "../../services/actions/auth";
 import { useDispatch, useSelector } from "react-redux";
 
 const App = () => {
-  const { authauthorized } = useSelector((state) => state.auth);
+  const { authauthorized, isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
@@ -37,7 +37,7 @@ const App = () => {
     if (authauthorized) {
       dispatch(getProfile());
     }
-  }, []);
+  }, [isLoggedIn]);
   return (
     <>
       <AppHeader />
@@ -50,11 +50,31 @@ const App = () => {
                 <BurgerConstructor />
               </DndProvider>
             </Route>
-            <Route path="/login" exact component={Login} />
-            <Route path="/register" exact component={Register} />
-            <Route path="/forgot-password" exact component={ForgotPassword} />
-            <Route path="/reset-password" exact component={ResetPassword} />
-            <ProtectedRouteElement element={<Profile />} path="/profile" />
+            <ProtectedRoute
+              children={<Login />}
+              path="/login"
+              onlyForAuth={false}
+            />
+            <ProtectedRoute
+              children={<Register />}
+              path="/register"
+              onlyForAuth={false}
+            />
+            <ProtectedRoute
+              children={<ForgotPassword />}
+              path="/forgot-password"
+              onlyForAuth={false}
+            />
+            <ProtectedRoute
+              children={<ResetPassword />}
+              path="/reset-password"
+              onlyForAuth={false}
+            />
+            <ProtectedRoute
+              children={<Profile />}
+              path="/profile"
+              onlyForAuth={true}
+            />
             <Route path="/ingredients/:id">
               <div className={styles.ingredient__wrp}>
                 <p

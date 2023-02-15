@@ -18,11 +18,11 @@ const ResetPassword = () => {
     (state) => state.recoveryPassword
   );
 
-  const { isUserLoaded } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const handleSavePassword = () => {
+  const handleSavePassword = (e) => {
+    e.preventDefault();
     dispatch(resetPassword({ password, token: code }));
   };
 
@@ -33,12 +33,6 @@ const ResetPassword = () => {
   }, [isResetPassword]);
 
   useEffect(() => {
-    if (isUserLoaded) {
-      history.replace("/");
-    }
-  }, []);
-
-  useEffect(() => {
     if (!isFoundEmail) {
       history.replace("/forgot-password");
     }
@@ -46,32 +40,34 @@ const ResetPassword = () => {
 
   return (
     <section className={`${styles.wrp} pt-20`}>
-      <p className={`${styles.center} text text_type_main-medium mb-6`}>
-        Восстановление пароля
-      </p>
-      <PasswordInput
-        name={"password"}
-        onChange={(e) => setPassword(e.target.value)}
-        value={password}
-        extraClass="mb-6"
-        placeholder={"Введите новый пароль"}
-      />
-      <Input
-        type={"text"}
-        placeholder={"Введите код из письма"}
-        onChange={(e) => setCode(e.target.value)}
-        value={code}
-        extraClass="mb-6"
-      />
-      <Button
-        htmlType="button"
-        type="primary"
-        size="large"
-        extraClass={`${styles.btn} mb-20`}
-        onClick={handleSavePassword}
-      >
-        Сохранить
-      </Button>
+      <form onSubmit={(e) => handleSavePassword(e)}>
+        <p className={`${styles.center} text text_type_main-medium mb-6`}>
+          Восстановление пароля
+        </p>
+        <PasswordInput
+          name={"password"}
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+          extraClass="mb-6"
+          placeholder={"Введите новый пароль"}
+        />
+        <Input
+          type={"text"}
+          placeholder={"Введите код из письма"}
+          onChange={(e) => setCode(e.target.value)}
+          value={code}
+          extraClass="mb-6"
+        />
+        <Button
+          htmlType="submit"
+          type="primary"
+          size="large"
+          extraClass={`${styles.btn} mb-20`}
+        >
+          Сохранить
+        </Button>
+      </form>
+
       <p
         className={`${styles.center} mb-4 text text_type_main-default text_color_inactive`}
       >

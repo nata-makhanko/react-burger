@@ -5,9 +5,9 @@ import {
   PasswordInput,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { register } from "../../services/actions/auth";
 
 const Register = () => {
@@ -15,54 +15,48 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
 
-  const { isUserLoaded } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const history = useHistory();
 
-  const checkIn = () => {
+  const checkIn = (e) => {
+    e.preventDefault();
     dispatch(register({ email: email, password: password, name: name }));
   };
 
-  useEffect(() => {
-    if (isUserLoaded) {
-      history.replace("/");
-    }
-  }, [isUserLoaded]);
-
   return (
     <section className={`${styles.wrp} pt-20`}>
-      <p className={`${styles.center} text text_type_main-medium mb-6`}>
-        Регистрация
-      </p>
-      <Input
-        type={"text"}
-        placeholder={"Имя"}
-        onChange={(e) => setName(e.target.value)}
-        value={name}
-        extraClass="mb-6"
-      />
-      <EmailInput
-        name={"email"}
-        isIcon={false}
-        onChange={(e) => setEmail(e.target.value)}
-        value={email}
-        extraClass="mb-6"
-      />
-      <PasswordInput
-        name={"password"}
-        onChange={(e) => setPassword(e.target.value)}
-        value={password}
-        extraClass="mb-6"
-      />
-      <Button
-        htmlType="button"
-        type="primary"
-        size="large"
-        extraClass={`${styles.btn} mb-20`}
-        onClick={checkIn}
-      >
-        Зарегистрироваться
-      </Button>
+      <form onSubmit={(e) => checkIn(e)}>
+        <p className={`${styles.center} text text_type_main-medium mb-6`}>
+          Регистрация
+        </p>
+        <Input
+          type={"text"}
+          placeholder={"Имя"}
+          onChange={(e) => setName(e.target.value)}
+          value={name}
+          extraClass="mb-6"
+        />
+        <EmailInput
+          name={"email"}
+          isIcon={false}
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+          extraClass="mb-6"
+        />
+        <PasswordInput
+          name={"password"}
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+          extraClass="mb-6"
+        />
+        <Button
+          htmlType="submit"
+          type="primary"
+          size="large"
+          extraClass={`${styles.btn} mb-20`}
+        >
+          Зарегистрироваться
+        </Button>
+      </form>
       <p
         className={`${styles.center} mb-4 text text_type_main-default text_color_inactive`}
       >

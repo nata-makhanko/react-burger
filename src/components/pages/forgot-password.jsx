@@ -13,13 +13,13 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState("");
 
   const { isFoundEmail } = useSelector((state) => state.recoveryPassword);
-  const { isUserLoaded } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
   const history = useHistory();
 
-  const restorePassword = () => {
+  const restorePassword = (e) => {
+    e.preventDefault();
     dispatch(forgotPassword({ email }));
   };
   useEffect(() => {
@@ -29,12 +29,6 @@ const ForgotPassword = () => {
   }, [isFoundEmail]);
 
   useEffect(() => {
-    if (isUserLoaded) {
-      history.replace("/");
-    }
-  }, [isUserLoaded]);
-
-  useEffect(() => {
     dispatch({
       type: RESET_ISFOUNDEMAIL,
     });
@@ -42,26 +36,27 @@ const ForgotPassword = () => {
 
   return (
     <section className={`${styles.wrp} pt-20`}>
-      <p className={`${styles.center} text text_type_main-medium mb-6`}>
-        Восстановление пароля
-      </p>
-      <EmailInput
-        name={"email"}
-        isIcon={false}
-        onChange={(e) => setEmail(e.target.value)}
-        value={email}
-        extraClass="mb-6"
-        placeholder="Укажите email"
-      />
-      <Button
-        htmlType="button"
-        type="primary"
-        size="large"
-        extraClass={`${styles.btn} mb-20`}
-        onClick={restorePassword}
-      >
-        Восстановить
-      </Button>
+      <form onSubmit={(e) => restorePassword(e)}>
+        <p className={`${styles.center} text text_type_main-medium mb-6`}>
+          Восстановление пароля
+        </p>
+        <EmailInput
+          name={"email"}
+          isIcon={false}
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+          extraClass="mb-6"
+          placeholder="Укажите email"
+        />
+        <Button
+          htmlType="submit"
+          type="primary"
+          size="large"
+          extraClass={`${styles.btn} mb-20`}
+        >
+          Восстановить
+        </Button>
+      </form>
       <p
         className={`${styles.center} mb-4 text text_type_main-default text_color_inactive`}
       >

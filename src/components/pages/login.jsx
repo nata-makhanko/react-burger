@@ -8,59 +8,56 @@ import { useState, useEffect } from "react";
 
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { login, getProfile } from "../../services/actions/auth";
+import { login } from "../../services/actions/auth";
+import { useForm } from "../../hooks/useForm";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { values, handleChange, setValues } = useForm({});
 
-  const { user, authauthorized } = useSelector((state) => state.auth);
+  const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const emptyUser = Object.keys(user).length === 0;
-
-  const signIn = () => {
-    dispatch(login({ email, password }));
+  const signIn = (e) => {
+    e.preventDefault();
+    dispatch(login(values));
   };
 
   useEffect(() => {
-    if (authauthorized) {
-      dispatch(getProfile());
-    }
-  }, [authauthorized]);
-
-  useEffect(() => {
-    if (!emptyUser) {
+    if (isLoggedIn) {
       history.replace("/");
     }
-  }, [emptyUser]);
+  }, [isLoggedIn]);
 
   return (
     <section className={`${styles.wrp} pt-20`}>
-      <p className={`${styles.center} text text_type_main-medium mb-6`}>Вход</p>
-      <EmailInput
-        name={"email"}
-        isIcon={false}
-        onChange={(e) => setEmail(e.target.value)}
-        value={email}
-        extraClass="mb-6"
-      />
-      <PasswordInput
-        name={"password"}
-        onChange={(e) => setPassword(e.target.value)}
-        value={password}
-        extraClass="mb-6"
-      />
-      <Button
-        htmlType="button"
-        type="primary"
-        size="large"
-        extraClass={`${styles.btn} mb-20`}
-        onClick={signIn}
-      >
-        Войти
-      </Button>
+      <form onSubmit={(e) => signIn(e)}>
+        <p className={`${styles.center} text text_type_main-medium mb-6`}>
+          Вход
+        </p>
+        <EmailInput
+          name={"email"}
+          isIcon={false}
+          onChange={(e) => handleChange(e)}
+          value={values.email ? values.email : ""}
+          extraClass="mb-6"
+        />
+        <PasswordInput
+          name={"password"}
+          onChange={(e) => handleChange(e)}
+          value={values.password ? values.password : ""}
+          extraClass="mb-6"
+        />
+        <Button
+          htmlType="submit"
+          type="primary"
+          size="large"
+          extraClass={`${styles.btn} mb-20`}
+        >
+          Войти
+        </Button>
+      </form>
+
       <p
         className={`${styles.center} mb-4 text text_type_main-default text_color_inactive`}
       >
