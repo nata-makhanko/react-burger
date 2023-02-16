@@ -6,8 +6,8 @@ import {
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { forgotPassword } from "../../services/actions/recovery-password";
-import { RESET_ISFOUNDEMAIL } from "../../services/actions/recovery-password";
+import { forgotPassword } from "../services/actions/recovery-password";
+import { RESET_ISFOUNDEMAIL } from "../services/actions/recovery-password";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");

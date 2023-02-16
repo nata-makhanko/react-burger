@@ -8,7 +8,7 @@ import {
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
-import { resetPassword } from "../../services/actions/recovery-password";
+import { resetPassword } from "../services/actions/recovery-password";
 
 const ResetPassword = () => {
   const [code, setCode] = useState("");

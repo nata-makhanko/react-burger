@@ -8,7 +8,7 @@ import {
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { register } from "../../services/actions/auth";
+import { register } from "../services/actions/auth";
 
 const Register = () => {
   const [email, setEmail] = useState("");

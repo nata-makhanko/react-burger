@@ -1,6 +1,4 @@
-import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { getIngredients } from "../../services/actions/burger-ingredients";
+import { useSelector } from "react-redux";
 
 import PropTypes from "prop-types";
 
@@ -11,20 +9,9 @@ import styles from "./ingredients-list.module.css";
 const IngredientList = ({ bunRef, sauceRef, mainRef }) => {
   const { countInggredients } = useSelector((state) => state.dropConstructor);
 
-  const {
-    ingredients,
-    ingredientsRequest,
-    ingredientsFailed,
-    isLoadedIngredients,
-  } = useSelector((state) => state.burgerIngredients);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (!isLoadedIngredients) {
-      dispatch(getIngredients());
-    }
-  }, [isLoadedIngredients]);
+  const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(
+    (state) => state.burgerIngredients
+  );
 
   const renderCounIngredient = (id) => {
     const ingredientWithCount = countInggredients

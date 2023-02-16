@@ -4,12 +4,12 @@ import {
   Button,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../services/actions/auth";
-import { useForm } from "../../hooks/useForm";
+import { login } from "../services/actions/auth";
+import { useForm } from "../hooks/useForm";
 
 const Login = () => {
   const { values, handleChange, setValues } = useForm({});

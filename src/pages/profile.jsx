@@ -7,10 +7,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { patchProfile, logout } from "../../services/actions/auth";
+import { patchProfile, logout } from "../services/actions/auth";
 import { NavLink } from "react-router-dom";
 
-import { useForm } from "../../hooks/useForm";
+import { useForm } from "../hooks/useForm";
 
 const Profile = () => {
   const { values, handleChange, setValues } = useForm({});

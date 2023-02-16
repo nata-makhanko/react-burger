@@ -4,12 +4,12 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 
-import Login from "../pages/login";
-import Register from "../pages/register";
-import ForgotPassword from "../pages/forgot-password";
-import ResetPassword from "../pages/reset-password";
-import Profile from "../pages/profile";
-import NotFound from "../pages/not-found";
+import Login from "../../pages/login";
+import Register from "../../pages/register";
+import ForgotPassword from "../../pages/forgot-password";
+import ResetPassword from "../../pages/reset-password";
+import Profile from "../../pages/profile";
+import NotFound from "../../pages/not-found";
 import ProtectedRoute from "../protected-route";
 
 import { DndProvider } from "react-dnd";
@@ -21,10 +21,14 @@ import styles from "./app.module.css";
 
 import { useEffect } from "react";
 import { getProfile } from "../../services/actions/auth";
+import { getIngredients } from "../../services/actions/burger-ingredients";
 import { useDispatch, useSelector } from "react-redux";
 
 const App = () => {
   const { authauthorized, isLoggedIn } = useSelector((state) => state.auth);
+  const { isLoadedIngredients } = useSelector(
+    (state) => state.burgerIngredients
+  );
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
@@ -38,6 +42,13 @@ const App = () => {
       dispatch(getProfile());
     }
   }, [isLoggedIn]);
+
+  useEffect(() => {
+    if (!isLoadedIngredients) {
+      dispatch(getIngredients());
+    }
+  }, [isLoadedIngredients]);
+
   return (
     <>
       <AppHeader />
