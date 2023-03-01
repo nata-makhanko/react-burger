@@ -1,0 +1,32 @@
+.wrp {
+  width: 100%;
+  display: flex;
+}
+.nav {
+  width: 26%;
+}
+
+.inputs {
+  width: 38.5%;
+}
+
+.list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.list a {
+  text-decoration: none;
+}
+
+.btns {
+  display: flex;
+  justify-content: end;
+}
+
+.active {
+  color: white;
+}

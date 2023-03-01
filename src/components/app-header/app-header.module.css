@@ -19,6 +19,10 @@
   width: 40%;
 }
 
+.list a {
+  text-decoration: none;
+}
+
 .item {
   display: flex;
   border-radius: 40px;
@@ -28,4 +32,12 @@
 .personal {
   composes: list;
   justify-content: flex-end;
+}
+
+.personal a {
+  text-decoration: none;
+}
+
+.active {
+  color: white;
 }

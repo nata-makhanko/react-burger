@@ -8,9 +8,12 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import styleIngredient from "./ingredient.module.css";
+import { Link, useLocation } from "react-router-dom";
 
-const Ingredient = ({ ingredient, onToggleModal, count }) => {
+import styles from "./ingredient.module.css";
+
+const Ingredient = ({ ingredient, count }) => {
+  const location = useLocation();
   const { name, price, image, _id, type, image_mobile } = ingredient;
   const [{ isDragging }, dragRef] = useDrag({
     type: type,
@@ -30,9 +33,12 @@ const Ingredient = ({ ingredient, onToggleModal, count }) => {
   const opacity = isDragging ? 0.4 : 1;
 
   return (
-    <div
-      className={styleIngredient.ingredient}
-      onClick={() => onToggleModal(_id)}
+    <Link
+      to={{
+        pathname: `/ingredients/${_id}`,
+        state: { background: location },
+      }}
+      className={styles.ingredient}
       draggable
       ref={dragRef}
       style={{ opacity }}
@@ -41,22 +47,19 @@ const Ingredient = ({ ingredient, onToggleModal, count }) => {
       <img
         src={image}
         alt={name}
-        className={`${styleIngredient.image} pr-4 pb-1 pl-4`}
+        className={`${styles.image} pr-4 pb-1 pl-4`}
       />
-      <div className={`${styleIngredient.price} mb-1`}>
+      <div className={`${styles.price} mb-1`}>
         <p className="text text_type_digits-default mr-1">{price}</p>
         <CurrencyIcon type="primary" />
       </div>
-      <p className={`${styleIngredient.name} text text_type_main-default`}>
-        {name}
-      </p>
-    </div>
+      <p className={`${styles.name} text text_type_main-default`}>{name}</p>
+    </Link>
   );
 };
 
 Ingredient.propTypes = {
   ingredient: ingredientType,
-  onToggleModal: PropTypes.func.isRequired,
   count: PropTypes.number.isRequired,
 };
 

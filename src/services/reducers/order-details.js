@@ -4,6 +4,7 @@ const initialState = {
     orderDetailsRequest: false,
     orderDetailsFailed: false,
     orderDetails: {},
+    isLoading: false,
 
     isOpenModalOrder: false,
     orderNumber: 0,
@@ -16,6 +17,7 @@ export const orderDetailsReducer = (state = initialState, action) => {
                 ...state,
                 orderDetailsRequest: true,
                 orderDetailsFailed: false,
+                isLoading: true,
             }
         case GET_ORDER_DETAILS_SUCCESS:
             return {
@@ -23,13 +25,15 @@ export const orderDetailsReducer = (state = initialState, action) => {
                 orderDetailsRequest: false,
                 orderDetailsFailed: false,
                 orderDetails: action.orderDetails,
+                isLoading: false,
             }
         case GET_ORDER_DETAILS_FAILED:
             return {
                 ...state,
                 orderDetailsRequest: true,
                 orderDetailsFailed: false,
-                orderDetails: {}
+                orderDetails: {},
+                isLoading: false,
             }
         case SELECTED_ORDET_DETAILS:
             return {
