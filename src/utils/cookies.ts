@@ -1,4 +1,10 @@
-export function setCookie(name: string, value: string, options: any) {
+type TOptions = {
+  path?: string
+  expires?: Date | string | number
+  [propName: string]: any
+}
+
+export function setCookie(name: string, value: string, options: TOptions) {
     options = {
         path: '/',
         ...options
