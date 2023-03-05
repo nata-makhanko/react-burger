@@ -4,23 +4,27 @@ import {
   Button,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../services/actions/auth";
 import { useForm } from "../hooks/useForm";
 
-const Login = () => {
-  const { values, handleChange, setValues } = useForm({});
+type TAuthState = {
+  isLoggedIn: boolean
+}
 
-  const { isLoggedIn } = useSelector((state) => state.auth);
+const Login = () => {
+  const { values, handleChange} = useForm({});
+
+  const { isLoggedIn }: TAuthState = useSelector((state: any) => state.auth);
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const signIn = (e) => {
+  const signIn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(login(values));
+    dispatch(login(values) as any);
   };
 
   useEffect(() => {

@@ -1,9 +1,19 @@
+import React from 'react';
 import { Route, Redirect, useLocation } from "react-router-dom";
 import { getCookie } from "../utils/cookies";
 
-const ProtectedRoute = ({ onlyForAuth, children, ...rest }) => {
+import {Location} from 'history';
+
+type TProtectedRouteProps = {
+  onlyForAuth: boolean, 
+  children: React.ReactNode,
+  path: string
+}
+
+
+const ProtectedRoute = ({ onlyForAuth, children, ...rest }: TProtectedRouteProps) => {
   const isAuthorized = getCookie("token");
-  const location = useLocation();
+  const location = useLocation<{from: Location}>();
   if (!onlyForAuth && isAuthorized) {
     const { from } = location.state || { from: { pathname: "/" } };
     return (

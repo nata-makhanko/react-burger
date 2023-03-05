@@ -1,8 +1,5 @@
-import { ingredientType } from "../../utils/types";
 import { useDrag } from "react-dnd";
 import { v4 as uuidv4 } from "uuid";
-import PropTypes from "prop-types";
-
 import {
   Counter,
   CurrencyIcon,
@@ -12,8 +9,14 @@ import { Link, useLocation } from "react-router-dom";
 
 import styles from "./ingredient.module.css";
 
-const Ingredient = ({ ingredient, count }) => {
-  const location = useLocation();
+import { TBurgerIngredient } from "../../utils/types";
+
+type TIngredientProps = {
+  ingredient: TBurgerIngredient,
+  count: number,
+}
+
+const Ingredient = ({ ingredient , count }: TIngredientProps) => {
   const { name, price, image, _id, type, image_mobile } = ingredient;
   const [{ isDragging }, dragRef] = useDrag({
     type: type,
@@ -29,6 +32,7 @@ const Ingredient = ({ ingredient, count }) => {
       isDragging: monitor.isDragging(),
     }),
   });
+  const location = useLocation();
 
   const opacity = isDragging ? 0.4 : 1;
 
@@ -58,9 +62,5 @@ const Ingredient = ({ ingredient, count }) => {
   );
 };
 
-Ingredient.propTypes = {
-  ingredient: ingredientType,
-  count: PropTypes.number.isRequired,
-};
 
 export default Ingredient;

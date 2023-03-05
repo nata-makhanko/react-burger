@@ -1,23 +1,19 @@
 import { ADD_INGREDIENT, ADD_BUN, MOVE_INGREDIENT, INCREASE_INGREDIENT, DECREASE_INGREDIENT, DELETE_INGREDIENT, SUM_INGREDIENT, CLEAR_INGREDIENTS_CONSTRUCTOR, CLEAR_INGREDIENTS_COUNT } from "../actions/drop-constructor";
-import { v4 as uuidv4 } from "uuid";
 
 const initialState = {
     typeIngredients: [{
         types: ['bun'],
         title: 'Выберите булки',
-        key: uuidv4(),
         position: 'top',
         refDrop: 'bunTop'
     }, {
         types: ['main', 'sauce'],
         title: 'Выберите начинку',
-        key: uuidv4(),
         position: 'center',
         refDrop: 'bunCenter'
     }, {
         types: ['bun'],
         title: 'Выберите булки',
-        key: uuidv4(),
         position: 'bottom',
         refDrop: 'bunBottom'
     }],

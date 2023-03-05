@@ -5,24 +5,31 @@ import {
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { patchProfile, logout } from "../services/actions/auth";
 import { NavLink } from "react-router-dom";
 
 import { useForm } from "../hooks/useForm";
 
+type TAuthState = {
+  user: {
+    email?: string,
+    name?: string
+  }
+}
+
 const Profile = () => {
-  const { values, handleChange, setValues } = useForm({});
+  const { values, setValues } = useForm({});
 
   const [disabled, setDisabled] = useState(true);
   const [disabledBtn, setDisabledBtn] = useState(true);
 
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const dispatch = useDispatch();
 
-  const { user } = useSelector((state) => state.auth);
+  const { user }: TAuthState = useSelector((state: any) => state.auth);
 
   useEffect(() => {
     setDisabledBtn(false);
@@ -31,7 +38,7 @@ const Profile = () => {
     }
   }, [user]);
 
-  const handleClearForm = (e) => {
+  const handleClearForm = (e: React.SyntheticEvent<Element, Event>) => {
     e.preventDefault();
     if (user?.name && user?.email) {
       setValues({
@@ -46,14 +53,14 @@ const Profile = () => {
   };
 
   const handleSaveForm = useCallback(
-    (e) => {
+    (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       if (
         values.name !== user?.name ||
         values.email !== user?.email ||
         values.password !== ""
       ) {
-        dispatch(patchProfile({ ...values }));
+        dispatch(patchProfile({ ...values }) as any);
       }
     },
     [values.name, values.email, values.password]
@@ -65,11 +72,11 @@ const Profile = () => {
 
   const handleIconClick = () => {
     setDisabled(false);
-    setTimeout(() => inputRef.current.focus(), 0);
+    setTimeout(() => inputRef.current?.focus(), 0);
   };
 
   const handleLogOut = () => {
-    dispatch(logout());
+    dispatch(logout() as any);
   };
 
   return (

@@ -7,9 +7,9 @@ import stylesIngredients from "./burger-ingredients.module.css";
 
 const BurgerIngredients = () => {
   const [currentTab, setCurrentTab] = useState("bun");
-  const bunRef = useRef();
-  const sauceRef = useRef();
-  const mainRef = useRef();
+  const bunRef = useRef<HTMLDivElement>();
+  const sauceRef = useRef<HTMLDivElement>();
+  const mainRef = useRef<HTMLDivElement>();
 
   const { ref: bunRefInView, inView: setTabBun } = useInView({
     threshold: 1,
@@ -24,7 +24,7 @@ const BurgerIngredients = () => {
   });
 
   const setBunRef = useCallback(
-    (node) => {
+    (node: HTMLDivElement) => {
       bunRef.current = node;
       bunRefInView(node);
     },
@@ -32,7 +32,7 @@ const BurgerIngredients = () => {
   );
 
   const setSauseRef = useCallback(
-    (node) => {
+    (node: HTMLDivElement) => {
       sauceRef.current = node;
       sauceRefInView(node);
     },
@@ -40,7 +40,7 @@ const BurgerIngredients = () => {
   );
 
   const setMainRef = useCallback(
-    (node) => {
+    (node: HTMLDivElement) => {
       mainRef.current = node;
       mainRefInView(node);
     },
@@ -58,16 +58,16 @@ const BurgerIngredients = () => {
   }, [setTabBun, setTabSauce, setTabMain]);
 
   useEffect(() => {
-    if (currentTab === bunRef.current.id) {
-      bunRef.current.scrollIntoView(true, {
+    if (currentTab === bunRef.current?.id) {
+      bunRef.current.scrollIntoView({
         behavior: "smooth",
       });
-    } else if (currentTab === sauceRef.current.id) {
-      sauceRef.current.scrollIntoView(true, {
+    } else if (currentTab === sauceRef.current?.id) {
+      sauceRef.current.scrollIntoView({
         behavior: "smooth",
       });
-    } else if (currentTab === mainRef.current.id) {
-      mainRef.current.scrollIntoView(true, {
+    } else if (currentTab === mainRef.current?.id) {
+      mainRef.current.scrollIntoView({
         behavior: "smooth",
       });
     }
