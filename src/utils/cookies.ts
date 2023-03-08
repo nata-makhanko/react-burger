@@ -1,5 +1,10 @@
-export function setCookie(name, value, options = {}) {
+type TOptions = {
+  path?: string
+  expires?: Date | string | number
+  [propName: string]: any
+}
 
+export function setCookie(name: string, value: string, options: TOptions) {
     options = {
         path: '/',
         ...options
@@ -23,7 +28,7 @@ export function setCookie(name, value, options = {}) {
 }
 
 
-export function getCookie(name) {
+export function getCookie(name: string) {
     const matches = document.cookie.match(
         new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
     );

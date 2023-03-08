@@ -7,8 +7,16 @@ import { useSelector } from "react-redux";
 
 import styles from "./app-header.module.css";
 
+type TAuthState = {
+  isUserLoaded: boolean, 
+  user: {
+    email?: string,
+    name?: string,
+  }
+}
+
 const AppHeader = () => {
-  const { isUserLoaded, user } = useSelector((state) => state.auth);
+  const { isUserLoaded, user }: TAuthState = useSelector((state: any) => state.auth);
   const location = useLocation();
 
   const paddingItems = "pt-4 pr-5 pb-4 pl-5";

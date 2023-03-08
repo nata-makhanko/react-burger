@@ -1,7 +1,7 @@
 import { _apiBase } from "../services/api";
 import { setCookie, getCookie } from "./cookies";
 
-export function checkResponse(response) {
+export function checkResponse<T>(response: Response): Promise<T> {
     if (response?.ok) {
         return response.json();
     } else {
@@ -10,16 +10,25 @@ export function checkResponse(response) {
 
 }
 
-export function request(url, options) {
+type TRequestOptions = {
+    method: "GET" | "POST" | "PATCH",
+    headers: {
+        "Content-type": string,
+        Authorization?: string,
+    },
+    body?: string,
+}
+
+export function request(url: string, options: TRequestOptions | {}) {
     return fetch(url, options).then(checkResponse);
 }
 
-export async function requestWithToken(url, options) {
+export async function requestWithToken(url: string, options: TRequestOptions) {
     try {
         const res = await fetch(url, options);
         return await checkResponse(res);
     } catch (e) {
-        if (e.message === 'jwt malformed' || e.message === 'jwt expired') {
+        if ((e as { message: string }).message === 'jwt malformed' || (e as { message: string }).message === 'jwt expired') {
             const refresh = await fetch(`${_apiBase}/auth/token`, {
                 method: "POST",
                 body: JSON.stringify({ token: localStorage.getItem('refreshToken') }),
@@ -28,14 +37,14 @@ export async function requestWithToken(url, options) {
                 }
             });
             const data = await checkResponse(refresh);
-            const authToken = data.accessToken.split('Bearer ')[1];
+            const authToken = (data as { [key: string]: string }).accessToken.split('Bearer ')[1];
             setCookie('token', authToken, { 'max-age': 1200 });
-            localStorage.setItem('refreshToken', data.refreshToken);
+            localStorage.setItem('refreshToken', (data as { [key: string]: string }).refreshToken);
             options.headers.Authorization = 'Bearer ' + getCookie('token');
             const res = await fetch(url, options);
             return await checkResponse(res);
         } else {
-            throw new Error(`Ошибка ${e.status}`);
+            throw new Error(`Ошибка ${(e as { status: string }).status}`);
         }
     }
 }

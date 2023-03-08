@@ -2,15 +2,26 @@ import stylesIngredientDetails from "./ingredient-details.module.css";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-const IngredientDetails = () => {
-  let { id } = useParams();
+import { TBurgerIngredient } from "../../utils/types";
 
-  const { ingredients, isLoadedIngredients } = useSelector(
-    (state) => state.burgerIngredients
+type TUseParams = {
+  id: string
+}
+
+type TUseSelector = {
+  ingredients: TBurgerIngredient[],
+  isLoadedIngredients: boolean
+}
+
+const IngredientDetails = () => {
+  let { id } = useParams<TUseParams>();
+
+  const { ingredients, isLoadedIngredients }: TUseSelector = useSelector(
+    (state: any) => state.burgerIngredients
   );
 
   const selectedIngredient = ingredients.find(
-    (ingredient) => ingredient._id === id
+    (ingredient: TBurgerIngredient) => ingredient._id === id
   );
 
   return (
@@ -18,14 +29,14 @@ const IngredientDetails = () => {
       {isLoadedIngredients ? (
         <div className={`${stylesIngredientDetails.modal} mb-15`}>
           <img
-            src={selectedIngredient.image_large}
-            alt={selectedIngredient.name}
+            src={selectedIngredient?.image_large}
+            alt={selectedIngredient?.name}
             className={`${stylesIngredientDetails.img} mb-4`}
           />
           <p
             className={`${stylesIngredientDetails.center} text text_type_main-medium mb-8`}
           >
-            {selectedIngredient.name}
+            {selectedIngredient?.name}
           </p>
           <div className={stylesIngredientDetails.wrp}>
             <div>
@@ -35,7 +46,7 @@ const IngredientDetails = () => {
               <p
                 className={`${stylesIngredientDetails.center} text text_type_digits-default text_color_inactive`}
               >
-                {selectedIngredient.calories}
+                {selectedIngredient?.calories}
               </p>
             </div>
             <div>
@@ -45,7 +56,7 @@ const IngredientDetails = () => {
               <p
                 className={`${stylesIngredientDetails.center} text text_type_digits-default text_color_inactive`}
               >
-                {selectedIngredient.proteins}
+                {selectedIngredient?.proteins}
               </p>
             </div>
             <div>
@@ -55,7 +66,7 @@ const IngredientDetails = () => {
               <p
                 className={`${stylesIngredientDetails.center} text text_type_digits-default text_color_inactive`}
               >
-                {selectedIngredient.fat}
+                {selectedIngredient?.fat}
               </p>
             </div>
             <div>
@@ -65,7 +76,7 @@ const IngredientDetails = () => {
               <p
                 className={`${stylesIngredientDetails.center} text text_type_digits-default text_color_inactive`}
               >
-                {selectedIngredient.carbohydrates}
+                {selectedIngredient?.carbohydrates}
               </p>
             </div>
           </div>

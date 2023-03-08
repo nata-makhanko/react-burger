@@ -5,7 +5,7 @@ import {
   PasswordInput,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { register } from "../services/actions/auth";
@@ -17,9 +17,9 @@ const Register = () => {
 
   const dispatch = useDispatch();
 
-  const checkIn = (e) => {
+  const checkIn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(register({ email: email, password: password, name: name }));
+    dispatch(register({ email: email, password: password, name: name }) as any);
   };
 
   return (

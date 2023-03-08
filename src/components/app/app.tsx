@@ -24,14 +24,25 @@ import { getProfile } from "../../services/actions/auth";
 import { getIngredients } from "../../services/actions/burger-ingredients";
 import { useDispatch, useSelector } from "react-redux";
 
+import {Location} from 'history';
+
+type TAuthState = {
+  authauthorized: boolean, 
+  isLoggedIn: boolean
+}
+
+type TBurgerIngredientsState ={ 
+  isLoadedIngredients: boolean
+}
+
 const App = () => {
-  const { authauthorized, isLoggedIn } = useSelector((state) => state.auth);
-  const { isLoadedIngredients } = useSelector(
-    (state) => state.burgerIngredients
+  const { authauthorized, isLoggedIn }: TAuthState = useSelector((state: any) => state.auth);
+  const { isLoadedIngredients }:TBurgerIngredientsState  = useSelector(
+    (state: any) => state.burgerIngredients
   );
   const dispatch = useDispatch();
   const history = useHistory();
-  const location = useLocation();
+  const location = useLocation<{background: Location}>();
 
   const background = location.state && location.state.background;
 
@@ -39,13 +50,13 @@ const App = () => {
 
   useEffect(() => {
     if (authauthorized) {
-      dispatch(getProfile());
+      dispatch(getProfile() as any);
     }
   }, [isLoggedIn]);
 
   useEffect(() => {
     if (!isLoadedIngredients) {
-      dispatch(getIngredients());
+      dispatch(getIngredients() as any);
     }
   }, [isLoadedIngredients]);
 

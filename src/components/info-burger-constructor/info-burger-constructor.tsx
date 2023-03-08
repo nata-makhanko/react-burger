@@ -19,22 +19,39 @@ import OrderDetails from "../order-details/order-details";
 
 import { useHistory } from "react-router-dom";
 
+import { TBurgerConstructor, TOrderDetails } from "../../utils/types";
+
 import styles from "./info-burger-constructor.module.css";
 
+type TDropConstructorState = {
+  ingredientsConstructor: TBurgerConstructor[],
+  sumIngredients: number
+}
+
+type TOrderDetailsState = {
+  orderDetails: TOrderDetails,
+  orderDetailsFailed: boolean,
+  isOpenModalOrder: boolean,
+  isLoading: boolean,
+}
+
+type TAuthState = {
+  authauthorized: boolean
+}
+
 const InfoBurgerConstructor = () => {
-  const { ingredientsConstructor, sumIngredients } = useSelector(
-    (state) => state.dropConstructor
+  const { ingredientsConstructor, sumIngredients }: TDropConstructorState = useSelector(
+    (state: any) => state.dropConstructor
   );
 
   const {
     orderDetails,
-    orderDetailsRequest,
     orderDetailsFailed,
     isOpenModalOrder,
     isLoading,
-  } = useSelector((state) => state.orderDetails);
+  }: TOrderDetailsState = useSelector((state: any) => state.orderDetails);
 
-  const { authauthorized } = useSelector((state) => state.auth);
+  const { authauthorized }: TAuthState = useSelector((state: any) => state.auth);
 
   const history = useHistory();
 
@@ -52,7 +69,7 @@ const InfoBurgerConstructor = () => {
       const ingredietntsID = ingredientsConstructor.map(
         (ingredient) => ingredient._id
       );
-      dispatch(getOrderDetails({ ingredients: ingredietntsID }));
+      dispatch(getOrderDetails({ ingredients: ingredietntsID }) as any);
       if (orderDetailsFailed) {
         return <p>Произошла ошибка при получении данных</p>;
       } else {
@@ -108,7 +125,7 @@ const InfoBurgerConstructor = () => {
         <Modal
           header=""
           onCloseModal={handleCloseModal}
-          isOpenModal={isOpenModalOrder}
+          // isOpenModal={isOpenModalOrder}
         >
           <OrderDetails />
         </Modal>

@@ -1,13 +1,25 @@
 import { useRef } from "react";
 import { useDrop, useDrag } from "react-dnd";
-import PropTypes from "prop-types";
-
+import { TBurgerConstructor } from "../../utils/types";
+import type { Identifier, XYCoord } from 'dnd-core'
 import {
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./burger-constructor-list-item.module.css";
+
+type TBurgerConstructorListItemProps = TBurgerConstructor & {
+  index: number,
+  onMoveIngredient: (dragIndex: number, hoverIndex: number) => void,
+  onDeleteIngredient: (uuid: string, id: string) => void,
+}
+
+interface DragItem {
+  index: number
+  id: string
+  type: string
+}
 
 const BurgerConstructorListItem = ({
   name,
@@ -18,16 +30,22 @@ const BurgerConstructorListItem = ({
   index,
   onMoveIngredient,
   onDeleteIngredient,
-}) => {
-  const ref = useRef(null);
-  const [{ handlerId }, drop] = useDrop({
+}: TBurgerConstructorListItemProps) => {
+
+  const ref = useRef<HTMLDivElement>(null);
+
+  const [{ handlerId }, drop] = useDrop<
+  DragItem,
+  void,
+  { handlerId: Identifier | null }
+>({
     accept: "moveIngredient",
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
       };
     },
-    hover(item, monitor) {
+    hover(item: DragItem, monitor) {
       if (!ref.current) {
         return;
       }
@@ -40,7 +58,7 @@ const BurgerConstructorListItem = ({
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
       }
@@ -79,17 +97,6 @@ const BurgerConstructorListItem = ({
       />
     </div>
   );
-};
-
-BurgerConstructorListItem.propTypes = {
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  image_mobile: PropTypes.string.isRequired,
-  uuid: PropTypes.string.isRequired,
-  _id: PropTypes.string.isRequired,
-  index: PropTypes.number.isRequired,
-  onMoveIngredient: PropTypes.func.isRequired,
-  onDeleteIngredient: PropTypes.func.isRequired,
 };
 
 export default BurgerConstructorListItem;

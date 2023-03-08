@@ -1,7 +1,7 @@
-import PropTypes from "prop-types";
-
 import { useSelector, useDispatch } from "react-redux";
 import { useDrop } from "react-dnd";
+
+import { v4 as uuidv4 } from "uuid";
 
 import {
   INCREASE_INGREDIENT,
@@ -9,6 +9,7 @@ import {
   ADD_BUN,
   ADD_INGREDIENT,
   DELETE_INGREDIENT,
+  MOVE_INGREDIENT
 } from "../../services/actions/drop-constructor";
 
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -16,17 +17,24 @@ import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-comp
 import BurgerConstructorListItem from "../burger-constructor-list-item/burger-constructor-list-item";
 import styles from "./burger-constructor-list.module.css";
 
-const BurgerConstructorList = ({ types, title, refDrop, position }) => {
-  const { ingredientsConstructor } = useSelector(
-    (state) => state.dropConstructor
+import { TTypeIngredients, TBurgerConstructor } from "../../utils/types";
+
+type TIngredientsConstructor = {
+  ingredientsConstructor: TBurgerConstructor[] | []
+}
+
+
+const BurgerConstructorList = ({ types, title, refDrop, position }: TTypeIngredients) => {
+  const { ingredientsConstructor }: TIngredientsConstructor  = useSelector(
+    (state: any) => state.dropConstructor
   );
 
   const dispatch = useDispatch();
 
-  const [{ isOver, canDrop }, defDrop] = useDrop({
+  const [{ isOver, canDrop }, defDrop]= useDrop({
     accept: types,
-    defDrop: refDrop,
-    drop(item) {
+    // defDrop: refDrop,
+    drop(item: TBurgerConstructor) {
       item.type === "bun" ? addBun(item) : addIngredients(item);
     },
     collect: (monitor) => ({
@@ -35,7 +43,7 @@ const BurgerConstructorList = ({ types, title, refDrop, position }) => {
     }),
   });
 
-  const addBun = (item) => {
+  const addBun = (item: TBurgerConstructor) => {
     dispatch({
       type: INCREASE_INGREDIENT,
       ingredient: { type: item.type, _id: item._id },
@@ -46,7 +54,7 @@ const BurgerConstructorList = ({ types, title, refDrop, position }) => {
     });
   };
 
-  const addIngredients = (item) => {
+  const addIngredients = (item: TBurgerConstructor) => {
     dispatch({
       type: INCREASE_INGREDIENT,
       ingredient: { type: item.type, _id: item._id },
@@ -57,7 +65,7 @@ const BurgerConstructorList = ({ types, title, refDrop, position }) => {
     });
   };
 
-  const handleDeleteIngredient = (uuid, id) => {
+  const handleDeleteIngredient = (uuid: string, id: string) => {
     dispatch({
       type: DECREASE_INGREDIENT,
       _id: id,
@@ -76,7 +84,7 @@ const BurgerConstructorList = ({ types, title, refDrop, position }) => {
     border = "1px dashed #4C4CFF";
   }
 
-  const hasIngredient = (position) => {
+  const hasIngredient = (position: string) => {
     if (position !== "center") {
       return ingredientsConstructor.some(
         (ingredient) => ingredient.type === "bun"
@@ -89,7 +97,7 @@ const BurgerConstructorList = ({ types, title, refDrop, position }) => {
     }
   };
 
-  const renderEmptyBox = (position, title) => {
+  const renderEmptyBox = (position: string, title: string) => {
     const extraClasses = " pt-4 pl-6 pb-4 pr-4";
     return (
       <div
@@ -107,20 +115,32 @@ const BurgerConstructorList = ({ types, title, refDrop, position }) => {
     );
   };
 
-  const renderIngredient = (types, position) => {
+  const renderIngredient = (types: string[], position: string) => {
     if (types.includes("bun")) {
       return ingredientsConstructor.map((ingredient) => {
         const { type, name, price, image_mobile, uuid } = ingredient;
         if (type === "bun") {
           return (
+            <div key={uuidv4()}>
+            {position === 'top' ?
             <ConstructorElement
-              type={position}
+              type='top'
               isLocked={true}
-              text={position === "top" ? `${name} (верх)` : `${name} (низ)`}
+              text={`${name} (верх)`}
               price={price}
               thumbnail={image_mobile}
               key={uuid}
-            />
+            /> 
+            : <ConstructorElement
+            type= 'bottom'
+            isLocked={true}
+            text={`${name} (низ)`}
+            price={price}
+            thumbnail={image_mobile}
+            key={uuid}
+          />}
+            </div>
+
           );
         }
       });
@@ -142,9 +162,9 @@ const BurgerConstructorList = ({ types, title, refDrop, position }) => {
     }
   };
 
-  const handleMoveIngredient = (dragIndex, hoverIndex) => {
+  const handleMoveIngredient = (dragIndex: number, hoverIndex: number) => {
     dispatch({
-      type: "MOVE_INGREDIENT",
+      type: MOVE_INGREDIENT,
       dragIndex,
       hoverIndex,
     });
@@ -161,10 +181,4 @@ const BurgerConstructorList = ({ types, title, refDrop, position }) => {
   );
 };
 
-BurgerConstructorList.propTypes = {
-  types: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  title: PropTypes.string.isRequired,
-  refDrop: PropTypes.string.isRequired,
-  position: PropTypes.string.isRequired,
-};
 export default BurgerConstructorList;

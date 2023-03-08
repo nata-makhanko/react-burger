@@ -3,8 +3,14 @@ import { useEffect, useRef } from "react";
 import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelector } from "react-redux";
 
+import { TOrderDetails } from "../../utils/types";
+
+type TOrderDetailsState = {
+  orderDetails: TOrderDetails
+}
+
 const OrderDetails = () => {
-  const { orderDetails } = useSelector((state) => state.orderDetails);
+  const { orderDetails }:TOrderDetailsState  = useSelector((state: any) => state.orderDetails);
 
   let orderNumber = useRef(0);
 
