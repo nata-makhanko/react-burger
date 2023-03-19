@@ -3,6 +3,9 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
+import FeedListItemDetails from "../feed-list-item-details/feed-list-item-details";
+import OrderListItemDetailes from '../order-list-item-detailes/order-list-item-detailes';
+import Orders from "../orders/orders";
 
 import Login from "../../pages/login";
 import Register from "../../pages/register";
@@ -10,6 +13,7 @@ import ForgotPassword from "../../pages/forgot-password";
 import ResetPassword from "../../pages/reset-password";
 import Profile from "../../pages/profile";
 import NotFound from "../../pages/not-found";
+import Feed from "../../pages/feed";
 import ProtectedRoute from "../protected-route";
 
 import { DndProvider } from "react-dnd";
@@ -22,23 +26,16 @@ import styles from "./app.module.css";
 import { useEffect } from "react";
 import { getProfile } from "../../services/actions/auth";
 import { getIngredients } from "../../services/actions/burger-ingredients";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../hooks/index";
+
 
 import {Location} from 'history';
 
-type TAuthState = {
-  authauthorized: boolean, 
-  isLoggedIn: boolean
-}
-
-type TBurgerIngredientsState ={ 
-  isLoadedIngredients: boolean
-}
 
 const App = () => {
-  const { authauthorized, isLoggedIn }: TAuthState = useSelector((state: any) => state.auth);
-  const { isLoadedIngredients }:TBurgerIngredientsState  = useSelector(
-    (state: any) => state.burgerIngredients
+  const { authauthorized, isLoggedIn }= useSelector((state) => state.auth);
+  const { isLoadedIngredients } = useSelector(
+    (state) => state.burgerIngredients
   );
   const dispatch = useDispatch();
   const history = useHistory();
@@ -50,13 +47,13 @@ const App = () => {
 
   useEffect(() => {
     if (authauthorized) {
-      dispatch(getProfile() as any);
+      dispatch(getProfile());
     }
   }, [isLoggedIn]);
 
   useEffect(() => {
     if (!isLoadedIngredients) {
-      dispatch(getIngredients() as any);
+      dispatch(getIngredients());
     }
   }, [isLoadedIngredients]);
 
@@ -97,6 +94,9 @@ const App = () => {
               path="/profile"
               onlyForAuth={true}
             />
+            <Route path="/feed" exact>
+              <Feed />
+            </Route>
             <Route path="/ingredients/:id">
               <div className={styles.ingredient__wrp}>
                 <p
@@ -107,6 +107,9 @@ const App = () => {
                 <IngredientDetails />
               </div>
             </Route>
+            <Route path="/feed/:orderNumber">
+                <OrderListItemDetailes />
+            </Route>
             <Route path="*" component={NotFound} />
           </Switch>
           {background && (
@@ -116,6 +119,24 @@ const App = () => {
                 onCloseModal={handleCloseModal}
               >
                 <IngredientDetails />
+              </Modal>
+            </Route>
+          )}
+          {background && (
+            <Route path="/feed/:orderNumber">
+              <Modal
+                onCloseModal={handleCloseModal}
+              >
+                <FeedListItemDetails />
+              </Modal>
+            </Route>
+          )}
+          {background && (
+            <Route path="/profile/orders/:orderNumber">
+              <Modal
+                onCloseModal={handleCloseModal}
+              >
+                <FeedListItemDetails />
               </Modal>
             </Route>
           )}

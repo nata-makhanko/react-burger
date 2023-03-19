@@ -1,13 +1,13 @@
 import BurgerConstructorList from "../burger-constructor-list/burger-constructor-list";
 import InfoBurgerConstructor from "../info-burger-constructor/info-burger-constructor";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../hooks/index";
 import styles from "./burger-constructor.module.css";
 
 import { TTypeIngredients } from "../../utils/types";
 
 const BurgerConstructor = () => {
-  const typeIngredients: TTypeIngredients[] = useSelector(
-    (state: any) => state.dropConstructor.typeIngredients
+  const typeIngredients = useSelector(
+    (state) => state.dropConstructor.typeIngredients
   );
 
   return (

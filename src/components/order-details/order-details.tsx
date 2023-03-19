@@ -1,21 +1,16 @@
 import styles from "./order-details.module.css";
 import { useEffect, useRef } from "react";
 import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../hooks/index";
 
-import { TOrderDetails } from "../../utils/types";
-
-type TOrderDetailsState = {
-  orderDetails: TOrderDetails
-}
 
 const OrderDetails = () => {
-  const { orderDetails }:TOrderDetailsState  = useSelector((state: any) => state.orderDetails);
+  const { orderDetails } = useSelector((state) => state.orderDetails);
 
-  let orderNumber = useRef(0);
+  let orderNumber = useRef<number|undefined>(0);
 
   useEffect(() => {
-    if (orderDetails?.order) {
+    if (orderDetails.order?.number) {
       orderNumber.current = orderDetails.order.number;
     }
   }, [orderDetails]);

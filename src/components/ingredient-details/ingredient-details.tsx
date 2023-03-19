@@ -1,5 +1,5 @@
 import stylesIngredientDetails from "./ingredient-details.module.css";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../hooks/index";
 import { useParams } from "react-router-dom";
 
 import { TBurgerIngredient } from "../../utils/types";
@@ -8,16 +8,11 @@ type TUseParams = {
   id: string
 }
 
-type TUseSelector = {
-  ingredients: TBurgerIngredient[],
-  isLoadedIngredients: boolean
-}
-
 const IngredientDetails = () => {
   let { id } = useParams<TUseParams>();
 
-  const { ingredients, isLoadedIngredients }: TUseSelector = useSelector(
-    (state: any) => state.burgerIngredients
+  const { ingredients, isLoadedIngredients } = useSelector(
+    (state) => state.burgerIngredients
   );
 
   const selectedIngredient = ingredients.find(

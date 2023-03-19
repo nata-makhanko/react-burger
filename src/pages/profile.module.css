@@ -1,6 +1,7 @@
 .wrp {
   width: 100%;
   display: flex;
+  max-height: 550px;
 }
 .nav {
   width: 26%;

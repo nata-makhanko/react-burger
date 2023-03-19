@@ -1,7 +1,7 @@
 import { _apiBase } from "../services/api";
 import { setCookie, getCookie } from "./cookies";
 
-export function checkResponse<T>(response: Response): Promise<T> {
+export function checkResponse(response: Response) {
     if (response?.ok) {
         return response.json();
     } else {
@@ -17,10 +17,6 @@ type TRequestOptions = {
         Authorization?: string,
     },
     body?: string,
-}
-
-export function request(url: string, options: TRequestOptions | {}) {
-    return fetch(url, options).then(checkResponse);
 }
 
 export async function requestWithToken(url: string, options: TRequestOptions) {

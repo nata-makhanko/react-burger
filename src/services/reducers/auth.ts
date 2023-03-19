@@ -1,6 +1,25 @@
+import { TUser } from '../../utils/types';
+import type {TAuthActions} from '../actions/auth';
+
 import { GET_PROFILE_REQUEST, GET_PROFILE_SUCCESS, GET_PROFILE_FAILED, PATCH_PROFILE_REQUEST, PATCH_PROFILE_SUCCESS, PATCH_PROFILE_FAILED, LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILED, LOGOUT_REQUEST, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILED, LOGOUT_SUCCESS, LOGOUT_FAILED } from '../actions/auth';
 
 import { getCookie } from '../../utils/cookies';
+
+type TAuthState = {
+    profileRequest: boolean,
+    profileFailed: boolean,
+    user: TUser | {},
+    loginRequest: boolean,
+    loginFailed: boolean,
+    isUserLoaded: boolean,
+    registerRequest: boolean,
+    registerFailed: boolean,
+    logoutRequest: boolean,
+    logoutFailed: boolean,
+    isLoggedIn: boolean,
+    authauthorized: boolean,
+}
+
 const initialState = {
     profileRequest: false,
     profileFailed: false,
@@ -22,7 +41,7 @@ const initialState = {
 
 }
 
-export const authReducer = (state = initialState, action) => {
+export const authReducer = (state = initialState, action: TAuthActions): TAuthState => {
     switch (action.type) {
         case GET_PROFILE_REQUEST:
             return {

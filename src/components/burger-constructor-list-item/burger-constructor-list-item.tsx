@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { useDrop, useDrag } from "react-dnd";
-import { TBurgerConstructor } from "../../utils/types";
+import { TIngredientsConstructor } from "../../utils/types";
 import type { Identifier, XYCoord } from 'dnd-core'
 import {
   ConstructorElement,
@@ -9,7 +9,7 @@ import {
 
 import styles from "./burger-constructor-list-item.module.css";
 
-type TBurgerConstructorListItemProps = TBurgerConstructor & {
+type TBurgerConstructorListItemProps = TIngredientsConstructor & {
   index: number,
   onMoveIngredient: (dragIndex: number, hoverIndex: number) => void,
   onDeleteIngredient: (uuid: string, id: string) => void,

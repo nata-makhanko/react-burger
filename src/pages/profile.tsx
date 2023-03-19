@@ -6,9 +6,13 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "../hooks/index";
 import { patchProfile, logout } from "../services/actions/auth";
 import { NavLink } from "react-router-dom";
+import ProtectedRoute from "../components/protected-route";
+import Orders from "../components/orders/orders";
+import { Switch, Route, useLocation, useHistory } from "react-router-dom";
+import OrderListItemDetailes from '../components/order-list-item-detailes/order-list-item-detailes';
 
 import { useForm } from "../hooks/useForm";
 
@@ -20,6 +24,7 @@ type TAuthState = {
 }
 
 const Profile = () => {
+
   const { values, setValues } = useForm({});
 
   const [disabled, setDisabled] = useState(true);
@@ -29,7 +34,7 @@ const Profile = () => {
 
   const dispatch = useDispatch();
 
-  const { user }: TAuthState = useSelector((state: any) => state.auth);
+  const { user }: TAuthState = useSelector((state) => state.auth);
 
   useEffect(() => {
     setDisabledBtn(false);
@@ -60,7 +65,7 @@ const Profile = () => {
         values.email !== user?.email ||
         values.password !== ""
       ) {
-        dispatch(patchProfile({ ...values }) as any);
+        dispatch(patchProfile({ ...values }));
       }
     },
     [values.name, values.email, values.password]
@@ -76,7 +81,7 @@ const Profile = () => {
   };
 
   const handleLogOut = () => {
-    dispatch(logout() as any);
+    dispatch(logout());
   };
 
   return (
@@ -112,53 +117,70 @@ const Profile = () => {
         </p>
       </section>
       <section className={styles.inputs}>
-        <form onSubmit={(e) => handleSaveForm(e)}>
-          <Input
-            disabled={disabled}
-            type={"text"}
-            placeholder={"Имя"}
-            onChange={(e) => setValues({ ...values, name: e.target.value })}
-            icon={"EditIcon"}
-            value={values.name ? values.name : ""}
-            onIconClick={handleIconClick}
-            extraClass="mb-6"
-            ref={inputRef}
-            onBlur={onBlur}
-          />
-          <EmailInput
-            name={"email"}
-            placeholder="Логин"
-            isIcon={true}
-            onChange={(e) => setValues({ ...values, email: e.target.value })}
-            value={values.email ? values.email : ""}
-            extraClass="mb-6"
-          />
-          <PasswordInput
-            name={"password"}
-            onChange={(e) => setValues({ ...values, password: e.target.value })}
-            value={values.password ? values.password : ""}
-            icon="EditIcon"
-            extraClass="mb-6"
-          />
-          <div className={styles.btns}>
-            <Button
-              htmlType="reset"
-              type="secondary"
-              size="medium"
-              onClick={(e) => handleClearForm(e)}
-            >
-              Отменить
-            </Button>
-            <Button
-              disabled={disabledBtn}
-              htmlType="submit"
-              type="primary"
-              size="medium"
-            >
-              Сохранить
-            </Button>
-          </div>
-        </form>
+        <Switch>
+        <Route path="/profile" exact={true}>
+          <form onSubmit={(e) => handleSaveForm(e)}>
+            <Input
+              disabled={disabled}
+              type={"text"}
+              placeholder={"Имя"}
+              onChange={(e) => setValues({ ...values, name: e.target.value })}
+              icon={"EditIcon"}
+              value={values.name ? values.name : ""}
+              onIconClick={handleIconClick}
+              extraClass="mb-6"
+              ref={inputRef}
+              onBlur={onBlur}
+            />
+            <EmailInput
+              name={"email"}
+              placeholder="Логин"
+              isIcon={true}
+              onChange={(e) => setValues({ ...values, email: e.target.value })}
+              value={values.email ? values.email : ""}
+              extraClass="mb-6"
+            />
+            <PasswordInput
+              name={"password"}
+              onChange={(e) => setValues({ ...values, password: e.target.value })}
+              value={values.password ? values.password : ""}
+              icon="EditIcon"
+              extraClass="mb-6"
+            />
+            <div className={styles.btns}>
+              <Button
+                htmlType="reset"
+                type="secondary"
+                size="medium"
+                onClick={(e) => handleClearForm(e)}
+              >
+                Отменить
+              </Button>
+              <Button
+                disabled={disabledBtn}
+                htmlType="submit"
+                type="primary"
+                size="medium"
+              >
+                Сохранить
+              </Button>
+            </div>
+          </form>
+        </Route>
+        <ProtectedRoute
+              children={<Orders />}
+              path="/profile/orders"
+              onlyForAuth={true}
+              exact={true}
+            />
+        <ProtectedRoute
+              children={<OrderListItemDetailes />}
+              path="/profile/orders/:orderNumber"
+              onlyForAuth={true}
+              exact={true}
+            />
+      </Switch>
+
       </section>
     </section>
   );

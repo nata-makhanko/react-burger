@@ -3,7 +3,7 @@ import { BurgerIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ListIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { NavLink, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../hooks/index";
 
 import styles from "./app-header.module.css";
 
@@ -16,7 +16,7 @@ type TAuthState = {
 }
 
 const AppHeader = () => {
-  const { isUserLoaded, user }: TAuthState = useSelector((state: any) => state.auth);
+  const { isUserLoaded, user }: TAuthState = useSelector((state) => state.auth);
   const location = useLocation();
 
   const paddingItems = "pt-4 pr-5 pb-4 pl-5";

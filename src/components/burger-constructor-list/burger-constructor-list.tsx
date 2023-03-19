@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "../../hooks/index";
 import { useDrop } from "react-dnd";
 
 import { v4 as uuidv4 } from "uuid";
@@ -19,21 +19,16 @@ import styles from "./burger-constructor-list.module.css";
 
 import { TTypeIngredients, TBurgerConstructor } from "../../utils/types";
 
-type TIngredientsConstructor = {
-  ingredientsConstructor: TBurgerConstructor[] | []
-}
 
-
-const BurgerConstructorList = ({ types, title, refDrop, position }: TTypeIngredients) => {
-  const { ingredientsConstructor }: TIngredientsConstructor  = useSelector(
-    (state: any) => state.dropConstructor
+const BurgerConstructorList = ({ types, title, position }: TTypeIngredients) => {
+  const { ingredientsConstructor }  = useSelector(
+    (state) => state.dropConstructor
   );
 
   const dispatch = useDispatch();
 
   const [{ isOver, canDrop }, defDrop]= useDrop({
     accept: types,
-    // defDrop: refDrop,
     drop(item: TBurgerConstructor) {
       item.type === "bun" ? addBun(item) : addIngredients(item);
     },
