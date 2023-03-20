@@ -7,8 +7,8 @@ export const socketMiddleware = (wsActions: TWSActionNames): Middleware => {
         let socket: WebSocket | null = null;
     return next => (action: TApplicationActions) => {
       const { dispatch } = store;
-
-      if (action.type === wsActions.WS_CONNECTION_START) {
+      const { wsInit, onOpen, onClose, onError, onMessage } = wsActions;
+      if (action.type === wsInit) {
             // объект класса WebSocket
         socket = new WebSocket(action.payload);
       }
@@ -16,23 +16,23 @@ export const socketMiddleware = (wsActions: TWSActionNames): Middleware => {
 
                 // функция, которая вызывается при открытии сокета
         socket.onopen = event => {
-          dispatch({ type: wsActions.WS_CONNECTION_SUCCESS, payload: event });
+          dispatch({ type: onOpen, payload: event });
         };
 
                 // функция, которая вызывается при ошибке соединения
         socket.onerror = event => {
-          dispatch({ type: wsActions.WS_CONNECTION_ERROR, payload: event });
+          dispatch({ type: onError, payload: event });
         };
 
                 // функция, которая вызывается при получения события от сервера
         socket.onmessage = event => {
           const { data } = event;
           const parsedData = JSON.parse(data);
-          dispatch({ type: wsActions.WS_GET_MESSAGE, payload: parsedData });
+          dispatch({ type: onMessage, payload: parsedData });
         };
                 // функция, которая вызывается при закрытии соединения
         socket.onclose = event => {
-          dispatch({ type: wsActions.WS_CONNECTION_CLOSED, payload: event });
+          dispatch({ type: onClose, payload: event });
         };
 
       }
@@ -41,46 +41,3 @@ export const socketMiddleware = (wsActions: TWSActionNames): Middleware => {
     };
     }) as Middleware;
 }; 
-
-// export const socketMiddleware = (wsUrl: string): Middleware => {
-//   return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
-//       let socket: WebSocket | null = null;
-//       console.log(wsUrl);
-//   return next => (action: TApplicationActions) => {
-//     const { dispatch } = store;
-//     const { type } = action;
-
-
-//     if (type === 'WS_CONNECTION_START') {
-//           // объект класса WebSocket
-//       socket = new WebSocket(wsUrl);
-//     }
-//     if (socket) {
-
-//               // функция, которая вызывается при открытии сокета
-//       socket.onopen = event => {
-//         dispatch({ type: 'WS_CONNECTION_SUCCESS', payload: event });
-//       };
-
-//               // функция, которая вызывается при ошибке соединения
-//       socket.onerror = event => {
-//         dispatch({ type: 'WS_CONNECTION_ERROR', payload: event });
-//       };
-
-//               // функция, которая вызывается при получения события от сервера
-//       socket.onmessage = event => {
-//         const { data } = event;
-//         const parsedData = JSON.parse(data);
-//         dispatch({ type: 'WS_GET_MESSAGE', payload: parsedData });
-//       };
-//               // функция, которая вызывается при закрытии соединения
-//       socket.onclose = event => {
-//         dispatch({ type: 'WS_CONNECTION_CLOSED', payload: event });
-//       };
-
-//     }
-
-//     next(action);
-//   };
-//   }) as Middleware;
-// }; 

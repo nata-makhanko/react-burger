@@ -1,6 +1,6 @@
 import styles from './orders.module.css';
 import { useEffect } from 'react';
-import {WS_CONNECTION_START, WS_CONNECTION_CLOSED} from '../../services/actions/ws-action-types';
+import {WS_CONNECTION_START_USER, WS_CONNECTION_CLOSED_USER} from '../../services/actions/ws-action-types';
 import { useDispatch, useSelector } from '../../hooks';
 import { _apiWs } from '../../services/api';
 import { getCookie } from '../../utils/cookies';
@@ -11,19 +11,19 @@ const Orders = () => {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch({
-          type: WS_CONNECTION_START,
+          type: WS_CONNECTION_START_USER,
           payload: `${_apiWs}?token=${accessToken}`,
         })
         return () => {
           dispatch({
-            type: WS_CONNECTION_CLOSED
+            type: WS_CONNECTION_CLOSED_USER
           });
         }
       }, [dispatch, accessToken]);
-    const {wsConnected, messages} = useSelector(state => state.ws); 
+    const {wsConnectedUser, userMessages} = useSelector(state => state.ws); 
     const renderOrdersListItem = () => {
-        if(wsConnected &&  messages[0]?.orders) {
-            const reversedArr = [...messages[0].orders].reverse();
+        if(wsConnectedUser &&  userMessages[0]?.orders) {
+            const reversedArr = [...userMessages[0].orders].reverse();
             return reversedArr.map(order => {
                 return <OrdersListItem withStatus={true} order={order} key={order._id} isFeed={false}/>
             })
@@ -34,7 +34,7 @@ const Orders = () => {
     return (
     <>
         {
-            wsConnected ? 
+            wsConnectedUser ? 
                 <section style={{width: '150%'}} className={styles.wrp}>
                     {renderOrdersListItem()}
                 </section>

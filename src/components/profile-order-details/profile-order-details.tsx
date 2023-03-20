@@ -1,4 +1,4 @@
-import styles from './feed-list-item-details.module.css';
+import styles from './profile-order-details.module.css';
 import moment from 'moment';
 import 'moment/locale/ru';
 import { useSelector } from "../../hooks";
@@ -8,13 +8,12 @@ import { renderStatus, renderOrderList, renderOrderSumList } from "../../utils/r
 type TUseParams = {
   orderNumber: string
 }
- 
 
-const FeedListItemDetails = () => {
+const ProfileOrderDetails = () => {
     let { orderNumber } = useParams<TUseParams>();
-    const {wsConnected, messages} = useSelector(state => state.ws);
+    const {wsConnectedUser, userMessages} = useSelector(state => state.ws);
     const {ingredients} = useSelector(state => state.burgerIngredients);
-    const selectedOrder = messages[0].orders.find(order => order.number === Number(orderNumber));
+    const selectedOrder = userMessages[0].orders.find(order => order.number === Number(orderNumber));
     let getCountOfIngredients = selectedOrder ? Object.entries(selectedOrder.ingredients.reduce((acc: {[key: string]: number}, i) => {
         if (acc.hasOwnProperty(i)) {
           acc[i] += 1;
@@ -35,7 +34,7 @@ const FeedListItemDetails = () => {
 
     return (
         <section className={`${styles.wrp}`}>
-            {wsConnected && selectedOrder
+            {wsConnectedUser && selectedOrder
             ? 
             <>
                 <p className="text text_type_digits-default mb-5">#{selectedOrder.number}</p>
@@ -55,4 +54,4 @@ const FeedListItemDetails = () => {
     )
 }
 
-export default FeedListItemDetails;
+export default ProfileOrderDetails;

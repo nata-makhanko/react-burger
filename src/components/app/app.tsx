@@ -5,7 +5,7 @@ import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import FeedListItemDetails from "../feed-list-item-details/feed-list-item-details";
 import OrderListItemDetailes from '../order-list-item-detailes/order-list-item-detailes';
-import Orders from "../orders/orders";
+import ProfileOrderDetails from '../profile-order-details/profile-order-details';
 
 import Login from "../../pages/login";
 import Register from "../../pages/register";
@@ -136,7 +136,7 @@ const App = () => {
               <Modal
                 onCloseModal={handleCloseModal}
               >
-                <FeedListItemDetails />
+                <ProfileOrderDetails />
               </Modal>
             </Route>
           )}

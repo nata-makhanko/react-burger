@@ -1,0 +1,34 @@
+.wrp {
+  margin: 0 auto;
+  width: 640px;
+  max-height: 715px;
+}
+
+.order__list {
+  width: 100%;
+  max-height: 43%;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.order__list::-webkit-scrollbar {
+  width: 12px;
+}
+.order__list::-webkit-scrollbar-track {
+  background: #2f2f37;
+}
+.order__list::-webkit-scrollbar-thumb {
+  background: #8585ad;
+  border: 3px solid #2f2f37;
+  border-radius: 6px;
+}
+
+.wrp__date_price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.wrp__sum {
+  display: flex;
+  align-items: center;
+}

@@ -180,7 +180,6 @@ const Profile = () => {
               exact={true}
             />
       </Switch>
-
       </section>
     </section>
   );
