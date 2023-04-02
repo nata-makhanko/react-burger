@@ -1,12 +1,6 @@
-import { wsReducer } from "./ws-reducer";
+import { wsReducer, initialState } from "./ws-reducer";
 import * as types from '../actions/ws-action-types';
 
-const initialState = {
-    wsConnected: false,
-    messages: [],
-    wsConnectedUser: false,
-    userMessages: []
-}
 
 const wsConnection = [
     {

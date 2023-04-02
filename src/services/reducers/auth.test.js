@@ -1,20 +1,6 @@
-import { authReducer } from "./auth";
+import { authReducer, initialState } from "./auth";
 import * as types from '../actions/auth';
 
-const initialState = {
-    profileRequest: false,
-    profileFailed: false,
-    user: {},
-    loginRequest: false,
-    loginFailed: false,
-    isUserLoaded: false,
-    registerRequest: false,
-    registerFailed: false,
-    logoutRequest: false,
-    logoutFailed: false,
-    isLoggedIn: false,
-    authauthorized: false,
-}
 
 const user = {
     email: 'mail@mail.ru',

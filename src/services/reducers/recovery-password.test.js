@@ -1,14 +1,7 @@
-import { recoveryPasswordReducer } from "./recovery-password";
+import { recoveryPasswordReducer, initialState } from "./recovery-password";
 import * as types from '../actions/recovery-password';
 
-const initialState = {
-    forgotPasswordRequest: false,
-    forgotPasswordFailed: false,
-    isFoundEmail: false,
-    resetPasswordRequest: false,
-    resetPasswordFailed: false,
-    isResetPassword: false,
-}
+
 
 describe('recovery password reducer', () => {
     it('should return the initial state', () => {

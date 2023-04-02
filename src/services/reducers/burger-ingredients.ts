@@ -9,7 +9,7 @@ type TBurgerIngredientsState = {
     isLoadedIngredients: boolean,
     ingredients: TBurgerIngredient[],
 }
-const initialState: TBurgerIngredientsState = {
+export const initialState: TBurgerIngredientsState = {
     ingredientsRequest: false,
     ingredientsFailed: false,
     isLoadedIngredients: false,

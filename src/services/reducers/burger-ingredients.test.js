@@ -1,4 +1,4 @@
-import { ingredientsReducer } from "./burger-ingredients";
+import { ingredientsReducer, initialState } from "./burger-ingredients";
 import * as types from '../actions/burger-ingredients';
 
 
@@ -33,12 +33,6 @@ const burgerIngredients = [
     },
 ];
 
-const initialState = {
-    ingredientsRequest: false,
-    ingredientsFailed: false,
-    isLoadedIngredients: false,
-    ingredients: [],
-};
 
 describe('burger ingredients reducer', () => {
     it('should return the initial state', () => {
@@ -49,7 +43,7 @@ describe('burger ingredients reducer', () => {
         expect(ingredientsReducer(initialState, {
             type: types.GET_INGREDIENTS_REQUEST
         })).toEqual({
-            ingredients: [],
+            ...initialState,
             ingredientsRequest: true,
             ingredientsFailed: false,
             isLoadedIngredients: false,
@@ -57,7 +51,10 @@ describe('burger ingredients reducer', () => {
     })
 
     it('case GET_INGREDIENTS_SUCCESS', () => {
-        expect(ingredientsReducer(initialState, {
+        expect(ingredientsReducer({
+            ...initialState,
+            ingredientsRequest: true,
+        }, {
             type: types.GET_INGREDIENTS_SUCCESS,
             ingredients: burgerIngredients,
         })).toEqual({
@@ -69,10 +66,13 @@ describe('burger ingredients reducer', () => {
     })
 
     it('case GET_INGREDIENTS_FAILED', () => {
-        expect(ingredientsReducer(initialState, {
+        expect(ingredientsReducer({
+            ...initialState,
+            ingredientsRequest: true,
+        }, {
             type: types.GET_INGREDIENTS_FAILED
         })).toEqual({
-            ingredients: [],
+            ...initialState,
             ingredientsRequest: false,
             ingredientsFailed: true,
             isLoadedIngredients: false,

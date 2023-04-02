@@ -113,10 +113,10 @@ const BurgerConstructorList = ({ types, title, position }: TTypeIngredients) => 
   const renderIngredient = (types: string[], position: string) => {
     if (types.includes("bun")) {
       return ingredientsConstructor.map((ingredient) => {
-        const { type, name, price, image_mobile, uuid } = ingredient;
+        const { type, name, price, image_mobile, uuid, _id } = ingredient;
         if (type === "bun") {
           return (
-            <div key={uuidv4()}>
+            <div key={_id}>
             {position === 'top' ?
             <ConstructorElement
               type='top'

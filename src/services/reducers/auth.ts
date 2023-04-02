@@ -35,7 +35,7 @@ type TAuthState = {
     authauthorized: boolean,
 }
 
-const initialState = {
+export const initialState = {
     profileRequest: false,
     profileFailed: false,
     user: {},

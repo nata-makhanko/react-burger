@@ -18,7 +18,7 @@ type TRecoveryPasswordState = {
     isResetPassword: boolean,
 }
 
-const initialState: TRecoveryPasswordState = {
+export const initialState: TRecoveryPasswordState = {
     forgotPasswordRequest: false,
     forgotPasswordFailed: false,
     isFoundEmail: false,

@@ -3,7 +3,7 @@ require('@4tw/cypress-drag-drop');
 describe('Burger constructor test', () => {
   beforeEach(() => {
     cy.viewport(1280, 720);
-    cy.visit('http://localhost:3000/');
+    cy.visit('/');
   });
 
   it('should open, check name and close ingredient', () => {

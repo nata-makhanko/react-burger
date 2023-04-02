@@ -25,7 +25,7 @@ type TOrderDetailsState = {
 
 }
 
-const initialState: TOrderDetailsState = {
+export const initialState: TOrderDetailsState = {
     orderDetailsRequest: false,
     orderDetailsFailed: false,
     orderDetails: {},

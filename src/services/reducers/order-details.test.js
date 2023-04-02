@@ -1,18 +1,5 @@
-import { orderDetailsReducer } from "./order-details";
+import { orderDetailsReducer, initialState } from "./order-details";
 import * as types from '../actions/order-details';
-
-const initialState = {
-    orderDetailsRequest: false,
-    orderDetailsFailed: false,
-    orderDetails: {},
-    isLoading: false,
-    isOpenModalOrder: false,
-    orderNumber: 0,
-    orderListRequest: false,
-    orderListFailed: false,
-    orderList: [],
-    isLoadedOrderList: false,
-}
 
 const getOrderDetailsSuccess = {
     success: true,

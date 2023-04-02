@@ -1,23 +1,6 @@
-import { dropConstructorReducer } from './drop-constructor';
+import { dropConstructorReducer, initialState } from './drop-constructor';
 import * as types from '../actions/drop-constructor';
 
-
-const typeIngredientsForTest = [{
-    types: ['bun'],
-    title: 'Выберите булки',
-    position: 'top',
-    refDrop: 'bunTop'
-}, {
-    types: ['main', 'sauce'],
-    title: 'Выберите начинку',
-    position: 'center',
-    refDrop: 'bunCenter'
-}, {
-    types: ['bun'],
-    title: 'Выберите булки',
-    position: 'bottom',
-    refDrop: 'bunBottom'
-}];
 
 const countIngredient = [
     {
@@ -56,24 +39,7 @@ const deleteIngredient = [
     }
 ];
 
-const sumIngredients = [
-    {
-        _id: '123',
-        uuid: '8989',
-        name: 'Grape',
-        price: 67,
-        image_mobile: '',
-        type: 'main',
-    },
-    {
-        _id: '009090',
-        uuid: '090909',
-        name: 'Banana',
-        price: 46,
-        image_mobile: '',
-        type: 'main',
-    }
-]
+const sumIngredients = [...deleteIngredient]
 
 const ingredientsConstructorForTest = [
     {
@@ -100,14 +66,10 @@ const ingredientsConstructorForTest = [
         image_mobile: '',
         type: 'main',
     }
-]
+];
 
-const initialState = {
-    typeIngredients: typeIngredientsForTest,
-    ingredientsConstructor: [],
-    countInggredients: [],
-    sumIngredients: 0,
-}
+const INCREASE_INGREDIENT = types.INCREASE_INGREDIENT;
+
 
 describe('drop constructor reducer', () => {
     it('should return the initial state', () => {
@@ -230,13 +192,13 @@ describe('drop constructor reducer', () => {
         })
     })
 
-    it('case INCREASE_INGREDIENT for buns', () => {
+    it(`case ${INCREASE_INGREDIENT} for buns`, () => {
         expect(dropConstructorReducer({
             ...initialState,
             countInggredients: countIngredient,
 
         }, {
-            type: types.INCREASE_INGREDIENT,
+            type: INCREASE_INGREDIENT,
             ingredient: {
                 type: 'bun',
                 _id: '0000000'
@@ -251,7 +213,7 @@ describe('drop constructor reducer', () => {
             countInggredients: countIngredient,
 
         }, {
-            type: types.INCREASE_INGREDIENT,
+            type: INCREASE_INGREDIENT,
             ingredient: {
                 type: 'bun',
                 _id: '0000005'
@@ -280,12 +242,12 @@ describe('drop constructor reducer', () => {
 
     })
 
-    it('case INCREASE_INGREDIENT for ingredients', () => {
+    it(`case ${INCREASE_INGREDIENT} for ingredients`, () => {
         expect(dropConstructorReducer({
             ...initialState,
             countInggredients: countIngredient,
         }, {
-            type: types.INCREASE_INGREDIENT,
+            type: INCREASE_INGREDIENT,
             ingredient: {
                 type: 'main',
                 _id: '0000001',
@@ -315,7 +277,7 @@ describe('drop constructor reducer', () => {
             ...initialState,
             countInggredients: countIngredient,
         }, {
-            type: types.INCREASE_INGREDIENT,
+            type: INCREASE_INGREDIENT,
             ingredient: {
                 type: 'sause',
                 _id: '0000034'

@@ -18,7 +18,7 @@ type TWsReducerState = {
     error?: Event
 }
 
-const initialState: TWsReducerState = {
+export const initialState: TWsReducerState = {
     wsConnected: false,
     messages: [],
     wsConnectedUser: false,
