@@ -1,7 +1,22 @@
 import { TUser } from '../../utils/types';
 import type {TAuthActions} from '../actions/auth';
 
-import { GET_PROFILE_REQUEST, GET_PROFILE_SUCCESS, GET_PROFILE_FAILED, PATCH_PROFILE_REQUEST, PATCH_PROFILE_SUCCESS, PATCH_PROFILE_FAILED, LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILED, LOGOUT_REQUEST, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILED, LOGOUT_SUCCESS, LOGOUT_FAILED } from '../actions/auth';
+import { 
+    GET_PROFILE_REQUEST, 
+    GET_PROFILE_SUCCESS, 
+    GET_PROFILE_FAILED, 
+    PATCH_PROFILE_REQUEST, 
+    PATCH_PROFILE_SUCCESS, 
+    PATCH_PROFILE_FAILED, 
+    LOGIN_REQUEST, 
+    LOGIN_SUCCESS, 
+    LOGIN_FAILED, 
+    LOGOUT_REQUEST, 
+    REGISTER_REQUEST, 
+    REGISTER_SUCCESS, 
+    REGISTER_FAILED, 
+    LOGOUT_SUCCESS, 
+    LOGOUT_FAILED } from '../actions/auth';
 
 import { getCookie } from '../../utils/cookies';
 
@@ -68,8 +83,8 @@ export const authReducer = (state = initialState, action: TAuthActions): TAuthSt
         case PATCH_PROFILE_REQUEST:
             return {
                 ...state,
-                profileRequest: false,
-                profileFailed: true,
+                profileRequest: true,
+                profileFailed: false,
                 user: {}
             }
         case PATCH_PROFILE_SUCCESS:

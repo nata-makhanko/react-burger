@@ -28,7 +28,7 @@ const IngredientDetails = () => {
             alt={selectedIngredient?.name}
             className={`${stylesIngredientDetails.img} mb-4`}
           />
-          <p
+          <p data-testid='name_ingredient'
             className={`${stylesIngredientDetails.center} text text_type_main-medium mb-8`}
           >
             {selectedIngredient?.name}

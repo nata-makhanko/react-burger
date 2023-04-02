@@ -166,7 +166,7 @@ const BurgerConstructorList = ({ types, title, position }: TTypeIngredients) => 
   };
   return (
     <div
-      className={position === "center" ? `${styles.center} pr-4` : "pr-6"}
+      className={position === "center" ? `${styles.center} pr-4` : "pr-6 burger_constructor_bun"}
       ref={defDrop}
     >
       {hasIngredient(position)

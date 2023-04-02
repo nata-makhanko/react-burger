@@ -8,15 +8,12 @@ type TBurgerIngredientsState = {
     ingredientsFailed: boolean,
     isLoadedIngredients: boolean,
     ingredients: TBurgerIngredient[],
-    countIngredient: number,
 }
 const initialState: TBurgerIngredientsState = {
     ingredientsRequest: false,
     ingredientsFailed: false,
     isLoadedIngredients: false,
     ingredients: [],
-
-    countIngredient: 0,
 }
 
 export const ingredientsReducer = (state = initialState, action: TBurgerIngredientsActions):TBurgerIngredientsState  => {
