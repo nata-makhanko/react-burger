@@ -6,21 +6,17 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../hooks/index";
 import { useHistory, Link } from "react-router-dom";
 import { resetPassword } from "../services/actions/recovery-password";
 
-type TRecoveryPasswordState = {
-  isResetPassword: string, 
-  isFoundEmail: string,
-}
 
 const ResetPassword = () => {
   const [code, setCode] = useState("");
   const [password, setPassword] = useState("");
 
-  const { isResetPassword, isFoundEmail }: TRecoveryPasswordState = useSelector(
-    (state: any) => state.recoveryPassword
+  const { isResetPassword, isFoundEmail } = useSelector(
+    (state) => state.recoveryPassword
   );
 
   const dispatch = useDispatch();
@@ -28,7 +24,7 @@ const ResetPassword = () => {
 
   const handleSavePassword = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(resetPassword({ password, token: code }) as any);
+    dispatch(resetPassword({ password, token: code }));
   };
 
   useEffect(() => {

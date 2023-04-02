@@ -1,15 +1,15 @@
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "../../hooks/index";
 import { getOrderDetails } from "../../services/actions/order-details";
 import {
   SUM_INGREDIENT,
   CLEAR_INGREDIENTS_CONSTRUCTOR,
   CLEAR_INGREDIENTS_COUNT,
-} from "../../services/actions/drop-constructor.js";
+} from "../../services/actions/drop-constructor";
 import {
   SELECTED_ORDET_DETAILS,
   DELETE_ORDET_DETAILS,
-} from "../../services/actions/order-details.js";
+} from "../../services/actions/order-details";
 import {
   Button,
   CurrencyIcon,
@@ -19,29 +19,12 @@ import OrderDetails from "../order-details/order-details";
 
 import { useHistory } from "react-router-dom";
 
-import { TBurgerConstructor, TOrderDetails } from "../../utils/types";
 
 import styles from "./info-burger-constructor.module.css";
 
-type TDropConstructorState = {
-  ingredientsConstructor: TBurgerConstructor[],
-  sumIngredients: number
-}
-
-type TOrderDetailsState = {
-  orderDetails: TOrderDetails,
-  orderDetailsFailed: boolean,
-  isOpenModalOrder: boolean,
-  isLoading: boolean,
-}
-
-type TAuthState = {
-  authauthorized: boolean
-}
-
 const InfoBurgerConstructor = () => {
-  const { ingredientsConstructor, sumIngredients }: TDropConstructorState = useSelector(
-    (state: any) => state.dropConstructor
+  const { ingredientsConstructor, sumIngredients }= useSelector(
+    (state) => state.dropConstructor
   );
 
   const {
@@ -49,9 +32,9 @@ const InfoBurgerConstructor = () => {
     orderDetailsFailed,
     isOpenModalOrder,
     isLoading,
-  }: TOrderDetailsState = useSelector((state: any) => state.orderDetails);
+  } = useSelector((state) => state.orderDetails);
 
-  const { authauthorized }: TAuthState = useSelector((state: any) => state.auth);
+  const { authauthorized } = useSelector((state) => state.auth);
 
   const history = useHistory();
 
@@ -66,10 +49,9 @@ const InfoBurgerConstructor = () => {
     if (!authauthorized) {
       history.push("/login");
     } else {
-      const ingredietntsID = ingredientsConstructor.map(
-        (ingredient) => ingredient._id
-      );
-      dispatch(getOrderDetails({ ingredients: ingredietntsID }) as any);
+      const ingredientsIDs = ingredientsConstructor.filter(ingredient => ingredient.type !== 'bun').map(ingredient => ingredient._id);
+      const bunsIDs = ingredientsConstructor.filter(ingredient => ingredient.type === 'bun').map(ingredient => [ingredient._id, ingredient._id]).flat();
+      dispatch(getOrderDetails({ ingredients: [...bunsIDs, ...ingredientsIDs ] }));
       if (orderDetailsFailed) {
         return <p>Произошла ошибка при получении данных</p>;
       } else {
@@ -82,8 +64,10 @@ const InfoBurgerConstructor = () => {
     handleOrderDetails();
   };
 
+  const isEmptyOrderDetails = !Object.keys(orderDetails).length;
+
   useEffect(() => {
-    if (orderDetails?.order) {
+    if (!isEmptyOrderDetails) {
       dispatch({
         type: SELECTED_ORDET_DETAILS,
       });
@@ -125,7 +109,6 @@ const InfoBurgerConstructor = () => {
         <Modal
           header=""
           onCloseModal={handleCloseModal}
-          // isOpenModal={isOpenModalOrder}
         >
           <OrderDetails />
         </Modal>

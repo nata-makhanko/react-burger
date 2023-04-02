@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useSelector } from "../../hooks/index";
 
 import Ingredient from "../ingredient/ingredient";
 
@@ -15,22 +15,19 @@ type TIngredientListProps = {
 
 
 const IngredientList = ({ bunRef, sauceRef, mainRef }: TIngredientListProps) => {
-  const { countInggredients } = useSelector((state: any) => state.dropConstructor);
+  const { countInggredients } = useSelector((state) => state.dropConstructor);
 
   const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(
-    (state: any) => state.burgerIngredients
+    (state) => state.burgerIngredients
   );
 
   const renderCounIngredient = (id: string) => {
     const ingredientWithCount = countInggredients
-      .map((ingredient: TBurgerIngredient) => {
+      .filter((ingredient) => {
         if (ingredient._id === id) {
           return ingredient;
-        } else {
-          return 0;
-        }
-      })
-      .filter((ingredient: number) => ingredient !== 0);
+        } 
+      });
     if (ingredientWithCount.length > 0) {
       return ingredientWithCount[0].count;
     } else {

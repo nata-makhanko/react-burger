@@ -7,24 +7,21 @@ import {
 import React, { useEffect } from "react";
 
 import { Link, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../hooks/index";
 import { login } from "../services/actions/auth";
 import { useForm } from "../hooks/useForm";
 
-type TAuthState = {
-  isLoggedIn: boolean
-}
 
 const Login = () => {
   const { values, handleChange} = useForm({});
 
-  const { isLoggedIn }: TAuthState = useSelector((state: any) => state.auth);
+  const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const history = useHistory();
 
   const signIn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(login(values) as any);
+    dispatch(login(values));
   };
 
   useEffect(() => {

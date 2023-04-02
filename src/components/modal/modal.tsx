@@ -9,7 +9,7 @@ import styles from "./modal.module.css";
 const reactModal = document.querySelector("#modals");
 
 type TModalProps = {
-  header: string, 
+  header?: string, 
   children?: React.ReactNode, 
   onCloseModal: () => void,
 }
@@ -27,11 +27,11 @@ const Modal = ({ header, children, onCloseModal }: TModalProps) => {
   return createPortal(
     <ModalOverlay onCloseModal={onCloseModal}>
       <div
-        className={`${styles.modal} pt-10 pr-10 pl-10`}
+        className={`${styles.modal} pt-10 pr-10 pl-10 pb-10`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className={styles.header}>
-          <p className="text text_type_main-large">{header}</p>
+          {header ? <p className="text text_type_main-large">{header}</p> : null}
           <div className={styles.close} onClick={onCloseModal}>
             <CloseIcon type="primary" />
           </div>

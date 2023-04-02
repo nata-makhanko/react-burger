@@ -1,0 +1,41 @@
+.wrp__order_list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.wrp__order_img_name {
+  display: flex;
+  align-items: center;
+  width: 75%;
+}
+
+.wrp__order_img {
+  position: relative;
+  background: #131316;
+  border-radius: 100px;
+  width: 64px;
+  height: 64px;
+  border: solid 2px #4c4cff;
+  box-sizing: border-box;
+}
+.img {
+  position: absolute;
+  height: 87%;
+  object-fit: cover;
+  object-position: -22px 5px;
+}
+
+.name {
+  width: 71%;
+}
+.wrp__order_count_price {
+  display: flex;
+  align-items: center;
+}
+
+.wrp__sum {
+  display: flex;
+  align-items: center;
+}

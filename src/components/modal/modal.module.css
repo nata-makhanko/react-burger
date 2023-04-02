@@ -10,11 +10,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 
 .close {
-  display: flex;
-  align-items: center;
+  position: absolute;
+  right: 0;
+  top: 7px;
   cursor: pointer;
 }
 

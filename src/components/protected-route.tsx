@@ -7,7 +7,8 @@ import {Location} from 'history';
 type TProtectedRouteProps = {
   onlyForAuth: boolean, 
   children: React.ReactNode,
-  path: string
+  path: string,
+  exact?: boolean,
 }
 
 

@@ -7,7 +7,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../hooks/index";
 import { register } from "../services/actions/auth";
 
 const Register = () => {
@@ -19,7 +19,7 @@ const Register = () => {
 
   const checkIn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(register({ email: email, password: password, name: name }) as any);
+    dispatch(register({ email: email, password: password, name: name }));
   };
 
   return (

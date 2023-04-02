@@ -1,6 +1,17 @@
+import type { TRecoveryPasswordActions } from '../actions/recovery-password';
+
 import { FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAILED, RESET_ISFOUNDEMAIL, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_FAILED } from '../actions/recovery-password';
 
-const initialState = {
+type TRecoveryPasswordState = {
+    forgotPasswordRequest: boolean,
+    forgotPasswordFailed: boolean,
+    isFoundEmail: boolean,
+    resetPasswordRequest: boolean,
+    resetPasswordFailed: boolean,
+    isResetPassword: boolean,
+}
+
+const initialState: TRecoveryPasswordState = {
     forgotPasswordRequest: false,
     forgotPasswordFailed: false,
     isFoundEmail: false,
@@ -10,7 +21,7 @@ const initialState = {
     isResetPassword: false,
 }
 
-export const recoveryPasswordReducer = (state = initialState, action) => {
+export const recoveryPasswordReducer = (state = initialState, action: TRecoveryPasswordActions): TRecoveryPasswordState => {
     switch (action.type) {
         case FORGOT_PASSWORD_REQUEST:
             return {

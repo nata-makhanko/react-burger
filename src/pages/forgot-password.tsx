@@ -4,19 +4,15 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../hooks/index";
 import { Link, useHistory } from "react-router-dom";
 import { forgotPassword } from "../services/actions/recovery-password";
 import { RESET_ISFOUNDEMAIL } from "../services/actions/recovery-password";
 
-type TRecoveryPasswordState = {
-  isFoundEmail: boolean
-}
-
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
 
-  const { isFoundEmail }: TRecoveryPasswordState = useSelector((state: any) => state.recoveryPassword);
+  const { isFoundEmail } = useSelector((state) => state.recoveryPassword);
 
   const dispatch = useDispatch();
 
@@ -24,7 +20,7 @@ const ForgotPassword = () => {
 
   const restorePassword = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(forgotPassword({ email }) as any);
+    dispatch(forgotPassword({ email }));
   };
   useEffect(() => {
     if (isFoundEmail) {
