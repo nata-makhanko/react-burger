@@ -89,11 +89,10 @@ const OrdersListItem = ({withStatus, order, isFeed}: TFeedListItemProps) => {
 
         const renderSum = () => {
             let arr = getNewArrIngredients();
-                return arr.reduce((acc: number, ingredient) => {
+            return arr.reduce((acc: number, ingredient) => {
                     let sum = ingredient.count*ingredient.price;
-                        return acc + sum;
+                    return acc + (Number.isNaN(sum) ? 0 : sum);
                 }, 0);
-
         }
     return (
         <>
