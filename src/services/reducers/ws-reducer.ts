@@ -18,7 +18,7 @@ type TWsReducerState = {
     error?: Event
 }
 
-const initialState: TWsReducerState = {
+export const initialState: TWsReducerState = {
     wsConnected: false,
     messages: [],
     wsConnectedUser: false,
@@ -42,7 +42,7 @@ export const wsReducer = (state = initialState, action: TWsTypesActions): TWsRed
     case WS_CONNECTION_CLOSED:
       return {
         ...state,
-                error: undefined,
+        error: undefined,
         wsConnected: false,
         messages: [],
       };

@@ -54,19 +54,19 @@ const OrdersListItem = ({withStatus, order, isFeed}: TFeedListItemProps) => {
         let arr = getNewArrIngredients();
         return arr.map((ingredient, index, ingredients) => {
             if(ingredient) {
-                const {name,_id, image_mobile} = ingredient;
+                const {name,image_mobile} = ingredient;
                 const zIndexImg = ingredients.length - index;
                 let count = ingredients.length - 6;
                 let isZero = ingredients.length === 6 ? false : true;
                 if(index < 5) {
                     return (
-                    <li className={styles.img__list_item} style={{zIndex: zIndexImg}} key={_id}>
+                    <li className={styles.img__list_item} style={{zIndex: zIndexImg}} key={index}>
                         <img className={styles.img} src={image_mobile} alt={name}/>
                     </li> 
                     )
                 }else if (index === 5 ) {
                     return (
-                        <li className={styles.img__list_item} style={{zIndex: zIndexImg}} key={_id}>
+                        <li className={styles.img__list_item} style={{zIndex: zIndexImg}} key={index}>
                         <img className={styles.img} src={image_mobile} alt={name}/>
                         {
                             isZero 
@@ -89,11 +89,10 @@ const OrdersListItem = ({withStatus, order, isFeed}: TFeedListItemProps) => {
 
         const renderSum = () => {
             let arr = getNewArrIngredients();
-                return arr.reduce((acc: number, ingredient) => {
+            return arr.reduce((acc: number, ingredient) => {
                     let sum = ingredient.count*ingredient.price;
-                        return acc + sum;
+                    return acc + (Number.isNaN(sum) ? 0 : sum);
                 }, 0);
-
         }
     return (
         <>

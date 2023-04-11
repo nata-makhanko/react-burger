@@ -18,7 +18,7 @@ type TDropConstructorState = {
     countInggredients: TCountIngredients[],
     sumIngredients: number,
 }
-const initialState: TDropConstructorState = {
+export const initialState: TDropConstructorState = {
     typeIngredients: [{
         types: ['bun'],
         title: 'Выберите булки',

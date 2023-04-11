@@ -1,32 +1,22 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 
 import "./index.css";
 import App from "./components/app/app";
-import { BrowserRouter as Router } from 'react-router-dom';
-// import { createStore, compose, applyMiddleware } from 'redux';
+import { HashRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import {store} from "./services/store";
-// import { rootReducer } from './services/reducers';
-// import thunk from 'redux-thunk';
 
-// declare global {
-//   interface Window {
-//     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
-//   }
-// }
+const rootElement = document.getElementById('root');
+if (!rootElement) throw new Error('Failed to find the root element');
+const root = ReactDOM.createRoot(rootElement);
 
-// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-// const enhancer = composeEnhancers(applyMiddleware(thunk));
-// const store = createStore(rootReducer, enhancer);
-
-ReactDOM.render(
+root.render(
   <Router>
     <React.StrictMode>
       <Provider store={store}>
         <App />
       </Provider>
     </React.StrictMode>
-  </Router>,
-  document.getElementById('root')
+  </Router>
 );
